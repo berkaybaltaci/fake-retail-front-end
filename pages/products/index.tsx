@@ -8,7 +8,12 @@ import { IProduct } from '../../types';
 const AllProductsPage: NextPage<{ allProducts: IProduct[] }> = ({
   allProducts,
 }) => {
-  return <AllProducts products={allProducts} />;
+  return (
+    <>
+      <h1>ALL PRODUCTS PAGE</h1>
+      <AllProducts products={allProducts} />
+    </>
+  );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -18,13 +23,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await client.connect();
   const productsCollection = client.db('test').collection('products');
   const allProducts = await productsCollection.find().toArray();
+  const convertedAllProducts = await JSON.parse(JSON.stringify(allProducts));
 
-  const convertedAllProducts = JSON.stringify(allProducts);
-  console.log(convertedAllProducts);
+  const allProductsWithoutId: IProduct[] = convertedAllProducts.map((product: any) => ({
+    name: product.name,
+    imagePath: product.imagePath,
+    isNew: product.isNew,
+    description: product.description,
+  }));
+
+  // console.log(convertedAllProducts);
+  // console.log(allProductsWithoutId);
 
   return {
     props: {
-      allProducts: convertedAllProducts,
+      allProducts: allProductsWithoutId,
     },
   };
   // client.connect(err => {
