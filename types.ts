@@ -4,6 +4,7 @@ export interface UserInfo {
 }
 
 export interface IProduct {
+  id: string;
   name: string;
   imagePath: string;
   isNew: boolean;
