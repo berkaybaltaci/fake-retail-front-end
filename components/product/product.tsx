@@ -31,9 +31,11 @@ const Product: React.FC<{
           style={{ marginBottom: 5, marginTop: theme.spacing.sm }}
         >
           <Text weight={500}>{name}</Text>
-          <Badge color="pink" variant="light">
-            {isNew && 'New!'}
-          </Badge>
+          {isNew && (
+            <Badge color="pink" variant="light">
+              New!
+            </Badge>
+          )}
         </Group>
 
         <Text size="sm" style={{ color: secondaryColor, lineHeight: 1.5 }}>

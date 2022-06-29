@@ -11,6 +11,7 @@ import {
 import { useBooleanToggle } from '@mantine/hooks';
 import { MantineLogo } from './logo/mantine-logo';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const HEADER_HEIGHT = 60;
 
@@ -98,8 +99,10 @@ interface HeaderResponsiveProps {
 }
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
+  const { pathname } = useRouter();
+
   const [opened, toggleOpened] = useBooleanToggle(false);
-  const [active, setActive] = useState(links[0].link);
+  const [active, setActive] = useState(pathname);
   const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
@@ -108,6 +111,10 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         className={cx(classes.link, {
           [classes.linkActive]: active === link.link,
         })}
+        onClick={() => {
+          setActive(link.link);
+          toggleOpened(false);
+        }}
       >
         {link.label}
       </a>
