@@ -4,10 +4,10 @@ import Product from '../../components/product/product';
 const ProductDetail: NextPage = () => {
   return (
     <Product
-      name="Bag of Chips"
+      product="Bag of Chips"
       description="Delicious bag of chips by lays"
       imagePath="/images/chips.jpg"
-      isNew={true}
+      _id="123"
     />
   );
 };

@@ -9,33 +9,39 @@ import {
 } from '@mantine/core';
 
 const Product: React.FC<{
-  name: string;
+  _id: string;
+  product: string;
   imagePath: string;
-  isNew: boolean;
   description: string;
-}> = ({ name, imagePath, isNew, description }) => {
+}> = ({ product, imagePath, description }) => {
   const theme = useMantineTheme();
 
   const secondaryColor =
     theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7];
 
   return (
-    <div style={{ margin: '1%', display: 'inline-flex' }}>
+    <div style={{ margin: '1%' }}>
       <Card shadow="sm" p="lg">
         <Card.Section>
-          <Image src={imagePath} height={160} alt="Chips" />
+          <Image
+            src={imagePath}
+            alt="Chips"
+            style={{
+              objectFit: 'cover',
+              maxHeight: '50%',
+            }}
+          />
         </Card.Section>
 
         <Group
           position="apart"
           style={{ marginBottom: 5, marginTop: theme.spacing.sm }}
         >
-          <Text weight={500}>{name}</Text>
-          {isNew && (
-            <Badge color="pink" variant="light">
-              New!
-            </Badge>
-          )}
+          <Text weight={500}>{product}</Text>
+
+          <Badge color="pink" variant="light">
+            New!
+          </Badge>
         </Group>
 
         <Text size="sm" style={{ color: secondaryColor, lineHeight: 1.5 }}>
