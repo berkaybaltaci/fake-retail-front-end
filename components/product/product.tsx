@@ -26,7 +26,7 @@ const Product: React.FC<{
         <Card.Section>
           <Image
             src={imagePath}
-            alt="Chips"
+            alt="Product Image"
             style={{
               objectFit: 'cover',
               maxHeight: '50%',

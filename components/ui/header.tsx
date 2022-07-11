@@ -99,10 +99,10 @@ interface HeaderResponsiveProps {
 }
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
-  const { pathname } = useRouter();
+  const { asPath } = useRouter();
 
   const [opened, toggleOpened] = useBooleanToggle(false);
-  const [active, setActive] = useState(pathname);
+  const [active, setActive] = useState(asPath);
   const { classes, cx } = useStyles();
 
   const items = links.map((link) => (
