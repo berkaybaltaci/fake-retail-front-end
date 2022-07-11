@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@mantine/core": "^4.2.11",
     "@mantine/form": "^4.2.11",
     "@mantine/hooks": "^4.2.11",
