@@ -14,7 +14,7 @@ const Product: React.FC<{
   price: number;
   imagePath: string;
   description: string;
-}> = ({ product, imagePath, description }) => {
+}> = ({ product, imagePath, description, price }) => {
   const theme = useMantineTheme();
 
   const secondaryColor =
@@ -43,10 +43,20 @@ const Product: React.FC<{
         >
           <Text weight={500}>{product}</Text>
         </Card.Section>
-        <div style={{ textAlign: 'center', height: '90px' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            textAlign: 'center',
+            height: '115px',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}
+        >
           <Badge color="pink" variant="light" style={{ marginBottom: 5 }}>
             New!
           </Badge>
+
           <Text
             size="sm"
             lineClamp={3}
@@ -59,11 +69,25 @@ const Product: React.FC<{
           </Text>
         </div>
 
+        <div
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <Badge
+            variant="gradient"
+            gradient={{ from: 'teal', to: 'lime', deg: 105 }}
+            mt={5}
+          >
+            <Text weight={700}>{price} £</Text>
+          </Badge>
+        </div>
+
         <Button
           variant="light"
           color="blue"
           fullWidth
-          style={{ marginTop: 14 }}
+          style={{ marginTop: 10 }}
         >
           Add to basket
         </Button>

@@ -120,8 +120,6 @@ export const getStaticPaths = async () => {
     pathsArray.push({ params: { page: `${i + 1}` } });
   }
 
-  console.log(pathsArray);
-
   return {
     paths: pathsArray,
     fallback: false, // See the "fallback" section in docs
