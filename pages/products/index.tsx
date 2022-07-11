@@ -1,11 +1,12 @@
-import { GetServerSideProps } from 'next';
 import { MongoClient } from 'mongodb';
 
 import { NextPage } from 'next';
 import AllProducts from '../../components/product/all-products';
 import IProduct from '../../types/IProduct';
 import { GetStaticProps } from 'next';
-import { useState } from 'react';
+
+import { gql } from '@apollo/client';
+import apolloClient from '../../lib/apollo';
 
 const AllProductsPage: NextPage<{ allProducts: IProduct[] }> = ({
   allProducts,
@@ -19,19 +20,25 @@ const AllProductsPage: NextPage<{ allProducts: IProduct[] }> = ({
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const uri =
-    'mongodb+srv://admin:siamsiam1812@cluster0.l9dh4.mongodb.net/?retryWrites=true&w=majority';
-  const client = new MongoClient(uri);
-  await client.connect();
-  const productsCollection = client
-    .db('fake-retail-app')
-    .collection('products');
-  const allProducts = await productsCollection.find().limit(10).toArray();
-  const convertedAllProducts = await JSON.parse(JSON.stringify(allProducts));
+  const allProductsQuery = gql`
+    query {
+      products {
+        _id
+        product
+        description
+        price
+        imagePath
+      }
+    }
+  `;
+
+  const { data } = await apolloClient.query({
+    query: allProductsQuery,
+  });
 
   return {
     props: {
-      allProducts: convertedAllProducts,
+      allProducts: data.products,
     },
   };
 };
