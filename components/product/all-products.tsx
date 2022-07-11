@@ -7,8 +7,6 @@ import IProduct from '../../types/IProduct';
 import Product from './product';
 
 const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
-  const [activePage, setPage] = useState(1);
-
   return (
     <>
       <Stack>
@@ -25,25 +23,13 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
               <Product
                 _id={singleProduct._id}
                 product={singleProduct.product}
+                price={singleProduct.price}
                 description={singleProduct.description}
                 imagePath={singleProduct.imagePath}
               />
             </Grid.Col>
           ))}
         </Grid>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignContent: 'flex-end',
-            alignSelf: 'center',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-            margin: '1%',
-          }}
-        >
-          <Pagination page={activePage} onChange={setPage} total={10} />
-        </div>
       </Stack>
     </>
   );

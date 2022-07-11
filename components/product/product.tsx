@@ -11,6 +11,7 @@ import {
 const Product: React.FC<{
   _id: string;
   product: string;
+  price: number;
   imagePath: string;
   description: string;
 }> = ({ product, imagePath, description }) => {
@@ -33,20 +34,30 @@ const Product: React.FC<{
           />
         </Card.Section>
 
-        <Group
-          position="apart"
-          style={{ marginBottom: 5, marginTop: theme.spacing.sm }}
+        <Card.Section
+          style={{
+            marginBottom: 5,
+            marginTop: theme.spacing.sm,
+            textAlign: 'center',
+          }}
         >
           <Text weight={500}>{product}</Text>
-
-          <Badge color="pink" variant="light">
+        </Card.Section>
+        <div style={{ textAlign: 'center', height: '90px' }}>
+          <Badge color="pink" variant="light" style={{ marginBottom: 5 }}>
             New!
           </Badge>
-        </Group>
-
-        <Text size="sm" style={{ color: secondaryColor, lineHeight: 1.5 }}>
-          {description}
-        </Text>
+          <Text
+            size="sm"
+            lineClamp={3}
+            style={{
+              color: secondaryColor,
+              lineHeight: 1.5,
+            }}
+          >
+            {description}
+          </Text>
+        </div>
 
         <Button
           variant="light"

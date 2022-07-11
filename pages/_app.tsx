@@ -7,7 +7,7 @@ import apolloClient from '../lib/apollo';
 function MyApp({ Component, pageProps }: AppProps) {
   const links = [
     { link: '/', label: 'Home Page' },
-    { link: '/products', label: 'Products' },
+    { link: '/products/page/1', label: 'Products' },
   ];
   return (
     <ApolloProvider client={apolloClient}>

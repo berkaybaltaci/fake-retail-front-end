@@ -7,6 +7,7 @@ const ProductDetail: NextPage = () => {
       product="Bag of Chips"
       description="Delicious bag of chips by lays"
       imagePath="/images/chips.jpg"
+      price={90}
       _id="123"
     />
   );

@@ -1,7 +1,7 @@
 export default interface IProduct {
   _id: string;
   product: string;
-  price: string;
+  price: number;
   description: string;
   imagePath: string;
 }
