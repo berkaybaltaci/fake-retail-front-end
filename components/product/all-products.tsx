@@ -10,13 +10,18 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
   return (
     <>
       <Stack>
-        <Grid justify="center" columns={24} style={{ height: '100%' }}>
+        <Grid
+          justify="center"
+          columns={60}
+          style={{ height: '100%', margin: '2%' }}
+        >
           {products.map((singleProduct) => (
             <Grid.Col
-              span={12}
-              xs={8}
-              md={6}
-              lg={4}
+              span={60}
+              xs={30}
+              md={20}
+              lg={15}
+              xl={12}
               key={singleProduct._id}
               style={{ width: '300px' }}
             >

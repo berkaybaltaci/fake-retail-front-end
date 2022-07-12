@@ -8,6 +8,7 @@ import apolloClient from '../../../lib/apollo';
 import { Pagination } from '@mantine/core';
 import { useRouter } from 'next/router';
 
+// Constants
 const PRODUCTS_PER_PAGE = 10;
 
 const AllProductsPage: NextPage<{
@@ -50,10 +51,6 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
     query {
       products {
         _id
-        product
-        description
-        price
-        imagePath
       }
     }
   `;
@@ -70,7 +67,7 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
     query {
       products(
         input: { numberOfProductsToGet: ${PRODUCTS_PER_PAGE}, 
-                numberOfProductsToSkip: ${PRODUCTS_PER_PAGE * (page - 1)} }
+                 numberOfProductsToSkip: ${PRODUCTS_PER_PAGE * (page - 1)} }
       ) {
         _id
         product
@@ -90,7 +87,7 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
       allProducts: data.products,
       totalNumOfPages,
     },
-    revalidate: 3600,
+    revalidate: 3600, // 1 hour
   };
 };
 
@@ -99,10 +96,6 @@ export const getStaticPaths = async () => {
     query {
       products {
         _id
-        product
-        description
-        price
-        imagePath
       }
     }
   `;
@@ -122,7 +115,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths: pathsArray,
-    fallback: false, // See the "fallback" section in docs
+    fallback: false,
   };
 };
 

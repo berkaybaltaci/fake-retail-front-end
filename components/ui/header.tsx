@@ -9,9 +9,10 @@ import {
   Transition,
 } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
-import { MantineLogo } from './logo/mantine-logo';
+import { ReactComponent as AppLogo } from '../../public/images/app-logo.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 const HEADER_HEIGHT = 60;
 
@@ -126,7 +127,12 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       <Container className={classes.header}>
         <Link href="/">
           <a>
-            <MantineLogo />
+            <Image
+              src="/images/app-logo.svg"
+              alt="App Logo"
+              width={90}
+              height={90}
+            />
           </a>
         </Link>
         <Group spacing={5} className={classes.links}>

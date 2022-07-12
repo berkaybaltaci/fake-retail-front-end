@@ -22,7 +22,7 @@ const Product: React.FC<{
 
   return (
     <div style={{ margin: '1%' }}>
-      <Card shadow="sm" p="lg">
+      <Card shadow="xs" p="lg">
         <Card.Section>
           <Image
             src={imagePath}
