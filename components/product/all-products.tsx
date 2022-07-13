@@ -27,10 +27,11 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
             >
               <Product
                 _id={singleProduct._id}
-                product={singleProduct.product}
+                name={singleProduct.name}
                 price={singleProduct.price}
                 description={singleProduct.description}
                 imagePath={singleProduct.imagePath}
+                isNew={singleProduct.isNew}
               />
             </Grid.Col>
           ))}

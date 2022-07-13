@@ -8,6 +8,8 @@ import apolloClient from '../../../lib/apollo';
 import { Pagination } from '@mantine/core';
 import { useRouter } from 'next/router';
 
+import { Title } from '@mantine/core';
+
 // Constants
 const PRODUCTS_PER_PAGE = 10;
 
@@ -23,7 +25,9 @@ const AllProductsPage: NextPage<{
 
   return (
     <>
-      <h1>ALL PRODUCTS PAGE</h1>
+      <Title align="center" mt={20} mb={-20}>
+        All Products
+      </Title>
       <AllProducts products={allProducts} />
       <div
         style={{
@@ -70,10 +74,11 @@ export const getStaticProps: GetStaticProps = async (context: any) => {
                  numberOfProductsToSkip: ${PRODUCTS_PER_PAGE * (page - 1)} }
       ) {
         _id
-        product
+        name
         description
         price
         imagePath
+        isNew
       }
     }
   `;

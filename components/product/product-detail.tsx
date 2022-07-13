@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Card,
-  Image,
   Text,
   Group,
   Badge,
@@ -9,31 +8,55 @@ import {
   Center,
   Button,
 } from '@mantine/core';
-import { GasStation, Gauge, ManualGearbox, Users } from 'tabler-icons-react';
 import { useProductDetailStyles } from '../../styles/product/product-detail.styles';
+import Image from 'next/image';
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import UpdateIcon from '@mui/icons-material/Update';
 
-const mockData = [
-  { label: 'Verified by experts', icon: GppGoodIcon },
-  { label: 'Reduced price', icon: PriceCheckIcon },
-  { label: 'Local offer', icon: LocalOfferIcon },
-  { label: 'Limited product', icon: UpdateIcon },
-];
-
 export const ProductDetail: React.FC<{
   _id: string;
-  product: string;
+  name: string;
   price: number;
   imagePath: string;
   description: string;
   discount: number;
-}> = ({ product, imagePath, description, price, discount }) => {
+  isNew: boolean;
+  isVerified: boolean;
+  isReducedPrice: boolean;
+  isLocalOffer: boolean;
+  isLimited: boolean;
+}> = ({
+  name,
+  imagePath,
+  description,
+  price,
+  discount,
+  isNew,
+  isVerified,
+  isReducedPrice,
+  isLocalOffer,
+  isLimited,
+}) => {
   const { classes } = useProductDetailStyles();
 
-  const features = mockData.map((feature) => (
+  const featuresData = [];
+
+  if (isVerified) {
+    featuresData.push({ label: 'Verified by experts', icon: GppGoodIcon });
+  }
+  if (isReducedPrice) {
+    featuresData.push({ label: 'Reduced price', icon: PriceCheckIcon });
+  }
+  if (isLocalOffer) {
+    featuresData.push({ label: 'Local offer', icon: LocalOfferIcon });
+  }
+  if (isLimited) {
+    featuresData.push({ label: 'Limited product', icon: UpdateIcon });
+  }
+
+  const features = featuresData.map((feature) => (
     <Center key={feature.label}>
       <feature.icon className={classes.icon} />
       <Text size="xs">{feature.label}</Text>
@@ -43,20 +66,22 @@ export const ProductDetail: React.FC<{
   return (
     <Card withBorder radius="md" className={classes.card} shadow="xs">
       <Card.Section className={classes.imageSection}>
-        <Image src={imagePath} height={200} alt="Product Image" />
+        <Image src={imagePath} width={700} height={400} alt="Product Image" />
       </Card.Section>
 
       <Group position="apart" mt="md">
         <div>
           <Text size="lg" weight={500}>
-            {product}
+            {name}
           </Text>
           <Text size="sm" color="dimmed">
             {description}
           </Text>
         </div>
-        <Badge variant="outline">{discount}% off</Badge>
       </Group>
+      <Badge mt={7} variant="outline">
+        {discount}% off
+      </Badge>
 
       <Card.Section className={classes.section} mt="md">
         <Text size="sm" color="dimmed" className={classes.label}>

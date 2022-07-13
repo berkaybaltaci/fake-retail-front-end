@@ -1,20 +1,22 @@
 import {
   Card,
-  Image,
   Text,
   Badge,
   Button,
   Group,
   useMantineTheme,
 } from '@mantine/core';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const Product: React.FC<{
   _id: string;
-  product: string;
+  name: string;
   price: number;
   imagePath: string;
   description: string;
-}> = ({ product, imagePath, description, price }) => {
+  isNew: boolean;
+}> = ({ _id, name, imagePath, description, price, isNew }) => {
   const theme = useMantineTheme();
 
   const secondaryColor =
@@ -22,66 +24,72 @@ const Product: React.FC<{
 
   return (
     <div style={{ margin: '1%' }}>
-      <Card shadow="xs" p="lg">
-        <Card.Section>
-          <Image
-            src={imagePath}
-            alt="Product Image"
-            style={{
-              objectFit: 'cover',
-              maxHeight: '50%',
-            }}
-          />
-        </Card.Section>
+      <Card shadow="sm" p="lg">
+        <Link href={`/products/${name}`}>
+          <a>
+            <Card.Section>
+              <Image
+                src={imagePath}
+                layout="fixed"
+                width={300}
+                height={200}
+                style={{ height: '50%' }}
+                alt="Product Image"
+              />
+            </Card.Section>
 
-        <Card.Section
-          style={{
-            marginBottom: 5,
-            marginTop: theme.spacing.sm,
-            textAlign: 'center',
-          }}
-        >
-          <Text weight={500}>{product}</Text>
-        </Card.Section>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            textAlign: 'center',
-            height: '115px',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-          }}
-        >
-          <Badge color="pink" variant="light" style={{ marginBottom: 5 }}>
-            New!
-          </Badge>
+            <Card.Section
+              style={{
+                marginBottom: 5,
+                marginTop: theme.spacing.sm,
+                textAlign: 'center',
+              }}
+            >
+              <Text weight={500}>{name}</Text>
+            </Card.Section>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'center',
+                height: '115px',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+              }}
+            >
+              {isNew && (
+                <Badge color="pink" variant="light" style={{ marginBottom: 5 }}>
+                  New!
+                </Badge>
+              )}
 
-          <Text
-            size="sm"
-            lineClamp={3}
-            style={{
-              color: secondaryColor,
-              lineHeight: 1.5,
-            }}
-          >
-            {description}
-          </Text>
-        </div>
+              <Text
+                size="sm"
+                lineClamp={3}
+                style={{
+                  color: secondaryColor,
+                  lineHeight: 1.5,
+                }}
+              >
+                {description}
+              </Text>
+            </div>
 
-        <div
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          <Badge
-            variant="gradient"
-            gradient={{ from: 'teal', to: 'lime', deg: 105 }}
-            mt={5}
-          >
-            <Text weight={700}>{price} £</Text>
-          </Badge>
-        </div>
+            <div
+              style={{
+                textAlign: 'center',
+              }}
+            >
+              <Badge
+                variant="gradient"
+                gradient={{ from: 'teal', to: 'lime', deg: 105 }}
+                mt={5}
+              >
+                <Text weight={700}>{price} £</Text>
+              </Badge>
+            </div>
+          </a>
+        </Link>
 
         <Button
           variant="light"
