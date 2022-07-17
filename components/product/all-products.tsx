@@ -1,8 +1,5 @@
-import { Grid, Pagination, Stack } from '@mantine/core';
-import { randomId } from '@mantine/hooks';
-import { randomBytes } from 'crypto';
-import { MongoClient } from 'mongodb';
-import { useEffect, useState } from 'react';
+import { Button, Grid, Group, Modal, Stack } from '@mantine/core';
+import { useState } from 'react';
 import IProduct from '../../types/IProduct';
 import Product from './product';
 
@@ -32,6 +29,10 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
                 description={singleProduct.description}
                 imagePath={singleProduct.imagePath}
                 isNew={singleProduct.isNew}
+                isLimited={singleProduct.isLimited}
+                isLocalOffer={singleProduct.isLocalOffer}
+                isReducedPrice={singleProduct.isReducedPrice}
+                isVerified={singleProduct.isVerified}
               />
             </Grid.Col>
           ))}

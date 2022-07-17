@@ -7,9 +7,10 @@ import {
   Burger,
   Paper,
   Transition,
+  Modal,
+  Button,
 } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
-import { ReactComponent as AppLogo } from '../../public/images/app-logo.svg';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -103,6 +104,8 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
 
   const [opened, toggleOpened] = useBooleanToggle(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [active, setActive] = useState(asPath);
   const { classes, cx } = useStyles();
 
@@ -145,6 +148,21 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           className={classes.burger}
           size="sm"
         />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            cursor: 'pointer',
+          }}
+        >
+          <Image
+            src="/images/cart-icon.svg"
+            alt="Cart Icon"
+            width={90}
+            height={50}
+            onClick={() => setIsModalOpen(true)}
+          />
+        </div>
 
         <Transition transition="pop-top-right" duration={200} mounted={opened}>
           {(styles) => (
@@ -154,6 +172,14 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           )}
         </Transition>
       </Container>
+
+      <Modal
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Your Cart"
+      >
+        Cart items fetched from the redux store should appear here.
+      </Modal>
     </Header>
   );
 }
