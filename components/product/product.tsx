@@ -8,6 +8,8 @@ import {
 } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectCart, addProductToCart } from '../../app/cartSlice';
 
 const Product: React.FC<{
   _id: string;
@@ -16,11 +18,46 @@ const Product: React.FC<{
   imagePath: string;
   description: string;
   isNew: boolean;
-}> = ({ _id, name, imagePath, description, price, isNew }) => {
+  isLimited: boolean;
+  isLocalOffer: boolean;
+  isReducedPrice: boolean;
+  isVerified: boolean;
+}> = ({
+  _id,
+  name,
+  imagePath,
+  description,
+  price,
+  isNew,
+  isLimited,
+  isLocalOffer,
+  isReducedPrice,
+  isVerified,
+}) => {
   const theme = useMantineTheme();
 
   const secondaryColor =
     theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7];
+
+  const dispatch = useAppDispatch();
+  const cart = useAppSelector(selectCart);
+
+  const handleAddToBasket = () => {
+    dispatch(
+      addProductToCart({
+        _id,
+        name,
+        imagePath,
+        description,
+        price,
+        isNew,
+        isLimited,
+        isLocalOffer,
+        isReducedPrice,
+        isVerified,
+      })
+    );
+  };
 
   return (
     <div style={{ margin: '1%' }}>
@@ -96,6 +133,7 @@ const Product: React.FC<{
           color="blue"
           fullWidth
           style={{ marginTop: 10 }}
+          onClick={handleAddToBasket}
         >
           Add to basket
         </Button>

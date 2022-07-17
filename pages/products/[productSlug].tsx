@@ -41,7 +41,6 @@ const ProductDetailPage: NextPage<{ product: IProduct }> = ({ product }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const { productSlug } = context.params;
-  console.log('product slug: ' + productSlug);
 
   // Now we query the products required for the current page
   const getProductByIdQuery = gql`
@@ -64,8 +63,6 @@ export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const { data } = await apolloClient.query({
     query: getProductByIdQuery,
   });
-
-  console.log(data);
 
   return {
     props: {
