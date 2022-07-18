@@ -1,5 +1,4 @@
-import { Button, Grid, Group, Modal, Stack } from '@mantine/core';
-import { useState } from 'react';
+import { Grid, Stack } from '@mantine/core';
 import IProduct from '../../types/IProduct';
 import Product from './product';
 
@@ -22,18 +21,7 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
               key={singleProduct._id}
               style={{ width: '300px' }}
             >
-              <Product
-                _id={singleProduct._id}
-                name={singleProduct.name}
-                price={singleProduct.price}
-                description={singleProduct.description}
-                imagePath={singleProduct.imagePath}
-                isNew={singleProduct.isNew}
-                isLimited={singleProduct.isLimited}
-                isLocalOffer={singleProduct.isLocalOffer}
-                isReducedPrice={singleProduct.isReducedPrice}
-                isVerified={singleProduct.isVerified}
-              />
+              <Product {...singleProduct} />
             </Grid.Col>
           ))}
         </Grid>

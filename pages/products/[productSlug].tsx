@@ -1,7 +1,6 @@
-import { GetServerSideProps, GetStaticProps, NextPage } from 'next';
-import Product from '../../components/product/product';
+import { GetServerSideProps, NextPage } from 'next';
 import { ProductDetail } from '../../components/product/product-detail';
-import { createStyles, Text } from '@mantine/core';
+import { createStyles } from '@mantine/core';
 import { gql } from '@apollo/client';
 import apolloClient from '../../lib/apollo';
 import IProduct from '../../types/IProduct';

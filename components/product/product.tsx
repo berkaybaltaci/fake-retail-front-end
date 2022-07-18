@@ -40,7 +40,6 @@ const Product: React.FC<{
     theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7];
 
   const dispatch = useAppDispatch();
-  const cart = useAppSelector(selectCart);
 
   const handleAddToBasket = () => {
     dispatch(
@@ -82,7 +81,9 @@ const Product: React.FC<{
                 textAlign: 'center',
               }}
             >
-              <Text weight={500}>{name}</Text>
+              <Text weight={500} lineClamp={1}>
+                {name}
+              </Text>
             </Card.Section>
             <div
               style={{

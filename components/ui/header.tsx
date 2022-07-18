@@ -8,12 +8,12 @@ import {
   Paper,
   Transition,
   Modal,
-  Button,
 } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Cart from '../cart/cart';
 
 const HEADER_HEIGHT = 60;
 
@@ -100,8 +100,17 @@ interface HeaderResponsiveProps {
   links: { link: string; label: string }[];
 }
 
+const isProductsPageActive = (link: string) => {
+  return (
+    link.length > 1 && link.substring(0, link.length - 1) == '/products/page/'
+  );
+};
+
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
+
+  console.log(asPath);
+  console.log(links[1].link);
 
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -113,7 +122,9 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
     <Link key={link.label} href={link.link}>
       <a
         className={cx(classes.link, {
-          [classes.linkActive]: active === link.link,
+          [classes.linkActive]:
+            active === link.link ||
+            (link.link.includes('products') && isProductsPageActive(active)),
         })}
         onClick={() => {
           setActive(link.link);
@@ -135,6 +146,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
               alt="App Logo"
               width={90}
               height={90}
+              onClick={() => setActive('/')}
             />
           </a>
         </Link>
@@ -178,7 +190,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         onClose={() => setIsModalOpen(false)}
         title="Your Cart"
       >
-        Cart items fetched from the redux store should appear here.
+        <Cart />
       </Modal>
     </Header>
   );
