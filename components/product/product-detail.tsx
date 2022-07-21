@@ -63,6 +63,8 @@ export const ProductDetail: React.FC<{
     </Center>
   ));
 
+  console.log(featuresData);
+
   return (
     <Card withBorder radius="md" className={classes.card} shadow="xs">
       <Card.Section className={classes.imageSection}>
@@ -79,19 +81,21 @@ export const ProductDetail: React.FC<{
           </Text>
         </div>
       </Group>
-      <Badge mt={7} variant="outline">
+      <Badge mt="sm" mb="md" variant="outline">
         {discount}% off
       </Badge>
 
-      <Card.Section className={classes.section} mt="md">
-        <Text size="sm" color="dimmed" className={classes.label}>
-          FEATURES
-        </Text>
+      {featuresData.length > 0 && (
+        <Card.Section className={classes.section}>
+          <Text size="sm" color="dimmed" className={classes.label}>
+            FEATURES
+          </Text>
 
-        <Group spacing={20} mb={-8}>
-          {features}
-        </Group>
-      </Card.Section>
+          <Group spacing={20} mb={-8}>
+            {features}
+          </Group>
+        </Card.Section>
+      )}
 
       <Card.Section className={classes.section}>
         <Group spacing={30}>

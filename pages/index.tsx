@@ -1,10 +1,8 @@
-import type { NextPage } from 'next'
-import HomePage from '../components/home/home-page'
+import type { NextPage } from 'next';
+import Home from '../components/home/home';
 
-const Home: NextPage = () => {
-  return (
-    <HomePage viewCount={50}/>
-  )
-}
+const HomePage: NextPage = () => {
+  return <Home viewCount={50} />;
+};
 
-export default Home
+export default HomePage;

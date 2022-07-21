@@ -19,7 +19,6 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
               lg={15}
               xl={12}
               key={singleProduct._id}
-              style={{ width: '300px' }}
             >
               <Product {...singleProduct} />
             </Grid.Col>

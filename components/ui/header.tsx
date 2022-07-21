@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Cart from '../cart/cart';
 
-const HEADER_HEIGHT = 60;
+const HEADER_HEIGHT = '10vh';
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -108,9 +108,6 @@ const isProductsPageActive = (link: string) => {
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
-
-  console.log(asPath);
-  console.log(links[1].link);
 
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [isModalOpen, setIsModalOpen] = useState(false);

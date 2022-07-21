@@ -1,15 +1,8 @@
-import {
-  Card,
-  Text,
-  Badge,
-  Button,
-  Group,
-  useMantineTheme,
-} from '@mantine/core';
+import { Card, Text, Badge, Button, useMantineTheme } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { selectCart, addProductToCart } from '../../app/cartSlice';
+import { useAppDispatch } from '../../app/hooks';
+import { addProductToCart } from '../../app/cartSlice';
 
 const Product: React.FC<{
   _id: string;
@@ -69,7 +62,7 @@ const Product: React.FC<{
                 layout="fixed"
                 width={300}
                 height={200}
-                style={{ height: '50%' }}
+                // style={{ height: '50%' }}
                 alt="Product Image"
               />
             </Card.Section>
