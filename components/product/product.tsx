@@ -1,8 +1,7 @@
 import { Card, Text, Badge, Button, useMantineTheme } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useAppDispatch } from '../../app/hooks';
-import { addProductToCart } from '../../app/cartSlice';
+import { useCartContext } from '../../app/context-store';
 
 const Product: React.FC<{
   _id: string;
@@ -32,23 +31,21 @@ const Product: React.FC<{
   const secondaryColor =
     theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7];
 
-  const dispatch = useAppDispatch();
+  const { addProductToCart } = useCartContext();
 
   const handleAddToBasket = () => {
-    dispatch(
-      addProductToCart({
-        _id,
-        name,
-        imagePath,
-        description,
-        price,
-        isNew,
-        isLimited,
-        isLocalOffer,
-        isReducedPrice,
-        isVerified,
-      })
-    );
+    addProductToCart({
+      _id,
+      name,
+      imagePath,
+      description,
+      price,
+      isNew,
+      isLimited,
+      isLocalOffer,
+      isReducedPrice,
+      isVerified,
+    });
   };
 
   return (

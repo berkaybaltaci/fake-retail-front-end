@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Card,
-  Text,
-  Group,
-  Badge,
-  createStyles,
-  Center,
-  Button,
-} from '@mantine/core';
+import { Card, Text, Group, Badge, Center, Button } from '@mantine/core';
 import { useProductDetailStyles } from '../../styles/product/product-detail.styles';
 import Image from 'next/image';
 import GppGoodIcon from '@mui/icons-material/GppGood';

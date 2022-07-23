@@ -3,8 +3,7 @@ import type { AppProps } from 'next/app';
 import { HeaderResponsive } from '../components/ui/header';
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from '../lib/apollo';
-import { Provider } from 'react-redux';
-import store from '../app/store';
+import { CartProvider } from '../app/context-store';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const links = [
@@ -12,12 +11,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     { link: '/products/page/1', label: 'Products' },
   ];
   return (
-    <Provider store={store}>
+    <CartProvider>
       <ApolloProvider client={apolloClient}>
         <HeaderResponsive links={links} />
         <Component {...pageProps} />
       </ApolloProvider>
-    </Provider>
+    </CartProvider>
   );
 }
 
