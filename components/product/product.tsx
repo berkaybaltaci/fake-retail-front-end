@@ -1,7 +1,8 @@
 import { Card, Text, Badge, Button, useMantineTheme } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useCartContext } from '../../app/context-store';
+import { useCartContext } from '../../lib/context-store';
+import isLoggedIn from '../../lib/auth-checker';
 
 const Product: React.FC<{
   _id: string;
@@ -33,19 +34,25 @@ const Product: React.FC<{
 
   const { addProductToCart } = useCartContext();
 
-  const handleAddToBasket = () => {
-    addProductToCart({
-      _id,
-      name,
-      imagePath,
-      description,
-      price,
-      isNew,
-      isLimited,
-      isLocalOffer,
-      isReducedPrice,
-      isVerified,
-    });
+  const handleAddToBasket = async () => {
+    const userExists = await isLoggedIn();
+    if (userExists) {
+      addProductToCart({
+        _id,
+        name,
+        imagePath,
+        description,
+        price,
+        isNew,
+        isLimited,
+        isLocalOffer,
+        isReducedPrice,
+        isVerified,
+      });
+    } else {
+      // TODO: Add notification here
+      console.log('Not authenticated');
+    }
   };
 
   return (

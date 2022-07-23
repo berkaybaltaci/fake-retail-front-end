@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { HeaderResponsive } from '../components/ui/header';
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from '../lib/apollo';
-import { CartProvider } from '../app/context-store';
+import { CartProvider } from '../lib/context-store';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const links = [

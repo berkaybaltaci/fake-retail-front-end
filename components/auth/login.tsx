@@ -3,7 +3,6 @@ import {
   Paper,
   TextInput,
   PasswordInput,
-  Checkbox,
   Button,
   Title,
   Text,
@@ -12,7 +11,7 @@ import {
 
 import { useLoginStyles } from '../../styles/auth/login.styles';
 import apolloClient from '../../lib/apollo';
-import { ApolloError, gql } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export function Login() {
   const { classes } = useLoginStyles();

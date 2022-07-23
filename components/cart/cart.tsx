@@ -1,5 +1,5 @@
 import { List } from '@mantine/core';
-import { useCartContext } from '../../app/context-store';
+import { useCartContext } from '../../lib/context-store';
 
 const Cart: React.FC = () => {
   const { products } = useCartContext();
