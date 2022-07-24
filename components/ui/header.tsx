@@ -15,7 +15,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Cart from '../cart/cart';
 
-const HEADER_HEIGHT = '10vh';
+const HEADER_HEIGHT = '10 vh';
 
 const useStyles = createStyles((theme) => ({
   root: {
