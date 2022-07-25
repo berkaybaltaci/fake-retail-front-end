@@ -16,6 +16,7 @@ const Product: React.FC<{
   isLocalOffer: boolean;
   isReducedPrice: boolean;
   isVerified: boolean;
+  addItemToCartHandler: () => void;
 }> = ({
   _id,
   name,
@@ -27,6 +28,7 @@ const Product: React.FC<{
   isLocalOffer,
   isReducedPrice,
   isVerified,
+  addItemToCartHandler,
 }) => {
   const theme = useMantineTheme();
 
@@ -50,6 +52,7 @@ const Product: React.FC<{
         isReducedPrice,
         isVerified,
       });
+      addItemToCartHandler();
     } else {
       Router.push('/login');
       console.log('Not authenticated');
