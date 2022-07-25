@@ -6,9 +6,8 @@ import apolloClient from '../../lib/apollo';
 import IProduct from '../../types/IProduct';
 
 const ProductDetailPage: NextPage<{ product: IProduct }> = ({ product }) => {
-  const useStyles = createStyles((theme) => ({
+  const useStyles = createStyles(() => ({
     container: {
-      // background: 'blue',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-evenly',
@@ -41,7 +40,6 @@ const ProductDetailPage: NextPage<{ product: IProduct }> = ({ product }) => {
 export const getServerSideProps: GetServerSideProps = async (context: any) => {
   const { productSlug } = context.params;
 
-  // Now we query the products required for the current page
   const getProductByIdQuery = gql`
     query {
       productByName(input: { name: "${productSlug}" }) {

@@ -11,7 +11,7 @@ import {
   Space,
 } from '@mantine/core';
 import { Notification } from '@mantine/core';
-import { Check } from 'tabler-icons-react';
+import { IconCheck } from '@tabler/icons';
 
 import { useLoginStyles } from '../../styles/auth/login.styles';
 import apolloClient from '../../lib/apollo';
@@ -69,13 +69,17 @@ export function Login() {
   return (
     <>
       {showSuccessNotification && (
-        <Notification
-          icon={<Check size={18} />}
-          color="teal"
-          title="Successfully logged in!"
-        >
-          You are now being redirected...
-        </Notification>
+        <div className={classes.alertContainer}>
+          <Notification
+            icon={<IconCheck size={20} />}
+            color="teal"
+            title="Successfully logged in!"
+            className={classes.alert}
+            disallowClose
+          >
+            You are now being redirected...
+          </Notification>
+        </div>
       )}
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>

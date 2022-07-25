@@ -4,6 +4,7 @@ import { HeaderResponsive } from '../components/ui/header';
 import { ApolloProvider } from '@apollo/client';
 import apolloClient from '../lib/apollo';
 import { CartProvider } from '../lib/context-store';
+import NextNProgress from 'nextjs-progressbar';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const links = [
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <CartProvider>
       <ApolloProvider client={apolloClient}>
+        <NextNProgress />
         <HeaderResponsive links={links} />
         <Component {...pageProps} />
       </ApolloProvider>

@@ -12,6 +12,5 @@ export const useAllProductsStyles = createStyles(() => ({
 
   alert: {
     position: 'relative',
-    display: 'block',
   },
 }));

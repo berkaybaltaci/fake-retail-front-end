@@ -1,7 +1,7 @@
-import { Alert, Grid, Stack } from '@mantine/core';
+import { Grid, Stack, Notification } from '@mantine/core';
 import IProduct from '../../types/IProduct';
 import Product from './product';
-import { IconAlertCircle } from '@tabler/icons';
+import { IconAlertCircle, IconCheck } from '@tabler/icons';
 import { useAllProductsStyles } from '../../styles/product/all-products.styles';
 import { useState } from 'react';
 
@@ -27,16 +27,15 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
     <>
       {showItemAddedToCartNotification && (
         <div className={classes.alertContainer}>
-          <Alert
-            icon={<IconAlertCircle size={16} />}
+          <Notification
+            icon={<IconCheck size={20} />}
             title="Notification"
             color="lime"
             className={classes.alert}
-            withCloseButton
-            variant="filled"
+            disallowClose
           >
             Item added to cart!
-          </Alert>
+          </Notification>
         </div>
       )}
       <Stack>
