@@ -4,7 +4,6 @@ import {
   TextInput,
   PasswordInput,
   Button,
-  Title,
   Text,
   Anchor,
   Group,
@@ -15,9 +14,17 @@ import { useLoginStyles } from '../../styles/auth/login.styles';
 import apolloClient from '../../lib/apollo';
 import { gql } from '@apollo/client';
 import Link from 'next/link';
+import { useCartContext } from '../../lib/context-store';
+import Router from 'next/router';
 
 export function Register() {
   const { classes } = useLoginStyles();
+
+  // If already logged in, redirect to home page
+  const { isLoggedIn } = useCartContext();
+  if (isLoggedIn) {
+    Router.push('/');
+  }
 
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);

@@ -21,9 +21,14 @@ import Link from 'next/link';
 import { useCartContext } from '../../lib/context-store';
 
 export function Login() {
-  const { classes } = useLoginStyles();
+  const { isLoggedIn, setIsLoggedIn } = useCartContext();
 
-  const { setIsLoggedIn } = useCartContext();
+  // If already logged in, redirect to home page
+  if (isLoggedIn) {
+    Router.push('/');
+  }
+
+  const { classes } = useLoginStyles();
 
   const [showSuccessNotification, setShowSuccessNotification] =
     useState<boolean>(false);
