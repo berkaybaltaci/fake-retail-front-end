@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCartContext } from '../../lib/context-store';
 import isLoggedIn from '../../lib/auth-checker';
+import Router from 'next/router';
 
 const Product: React.FC<{
   _id: string;
@@ -50,7 +51,7 @@ const Product: React.FC<{
         isVerified,
       });
     } else {
-      // TODO: Add notification here
+      Router.push('/login');
       console.log('Not authenticated');
     }
   };

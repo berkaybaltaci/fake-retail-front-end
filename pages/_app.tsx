@@ -9,6 +9,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   const links = [
     { link: '/', label: 'Home Page' },
     { link: '/products/page/1', label: 'Products' },
+    { link: '/login', label: 'Login' },
+    { link: '/register', label: 'Register' },
   ];
   return (
     <CartProvider>

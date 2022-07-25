@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   createStyles,
   Header,
@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Cart from '../cart/cart';
+import { useCartContext } from '../../lib/context-store';
 
 const HEADER_HEIGHT = '10 vh';
 
@@ -109,29 +110,40 @@ const isProductsPageActive = (link: string) => {
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
 
+  const { isLoggedIn, setIsLoggedIn } = useCartContext();
+
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(document.cookie.includes('dummyAccessToken'));
+  }, [setIsLoggedIn]);
 
   const [active, setActive] = useState(asPath);
   const { classes, cx } = useStyles();
 
-  const items = links.map((link) => (
-    <Link key={link.label} href={link.link}>
-      <a
-        className={cx(classes.link, {
-          [classes.linkActive]:
-            active === link.link ||
-            (link.link.includes('products') && isProductsPageActive(active)),
-        })}
-        onClick={() => {
-          setActive(link.link);
-          toggleOpened(false);
-        }}
-      >
-        {link.label}
-      </a>
-    </Link>
-  ));
+  const items = links
+    .filter(
+      (link) =>
+        !(isLoggedIn && (link.label === 'Login' || link.label === 'Register'))
+    )
+    .map((link) => (
+      <Link key={link.label} href={link.link}>
+        <a
+          className={cx(classes.link, {
+            [classes.linkActive]:
+              active === link.link ||
+              (link.link.includes('products') && isProductsPageActive(active)),
+          })}
+          onClick={() => {
+            setActive(link.link);
+            toggleOpened(false);
+          }}
+        >
+          {link.label}
+        </a>
+      </Link>
+    ));
 
   return (
     <Header height={HEADER_HEIGHT} mb={0} className={classes.root}>

@@ -40,15 +40,16 @@ export function Register() {
   return (
     <div className={classes.wrapper}>
       <Paper className={classes.form} radius={0} p={30}>
-        <Title
-          order={2}
-          className={classes.title}
+        <Text
           align="center"
           mt="md"
           mb={50}
+          color="blue"
+          weight={800}
+          style={{ fontSize: '250%', fontFamily: 'Marcellus' }}
         >
-          Welcome back to E-Commerce!
-        </Title>
+          Register Here
+        </Text>
 
         <TextInput
           label="Username"
@@ -67,9 +68,7 @@ export function Register() {
         <Button fullWidth mt="xl" size="md" onClick={registerHandler}>
           Register
         </Button>
-
         <Space h="sm" />
-
         <Group>
           <Text>Already have an account?</Text>
           <Link href="/login">

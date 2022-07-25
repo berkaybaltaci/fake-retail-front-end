@@ -16,7 +16,5 @@ export default async function isLoggedIn() {
     query: query,
   });
 
-  console.log(data);
-
   return data.currentUser !== null;
 }

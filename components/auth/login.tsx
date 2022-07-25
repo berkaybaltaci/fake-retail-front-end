@@ -18,9 +18,12 @@ import apolloClient from '../../lib/apollo';
 import { gql } from '@apollo/client';
 import Router from 'next/router';
 import Link from 'next/link';
+import { useCartContext } from '../../lib/context-store';
 
 export function Login() {
   const { classes } = useLoginStyles();
+
+  const { setIsLoggedIn } = useCartContext();
 
   const [showSuccessNotification, setShowSuccessNotification] =
     useState<boolean>(false);
@@ -47,6 +50,7 @@ export function Login() {
       // If login is successful, show success notification and redirect the user
       setShowSuccessNotification(true);
       setTimeout(() => {
+        setIsLoggedIn(true);
         setShowSuccessNotification(false);
         Router.push('/');
       }, 3000);
@@ -70,15 +74,18 @@ export function Login() {
       )}
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>
-          <Title
-            order={2}
-            className={classes.title}
+          <Text
+            // order={2}
+            // className={classes.title}
             align="center"
             mt="md"
             mb={50}
+            color="blue"
+            weight={800}
+            style={{ fontSize: '250%', fontFamily: 'Marcellus' }}
           >
-            Welcome back to E-Commerce!
-          </Title>
+            Login Here
+          </Text>
 
           <TextInput
             label="Username"
@@ -93,7 +100,6 @@ export function Login() {
             size="md"
             ref={passwordRef}
           />
-          {/* <Checkbox label="Keep me logged in" mt="xl" size="md" /> */}
           <Button
             fullWidth
             mt="xl"
@@ -103,9 +109,7 @@ export function Login() {
           >
             Login
           </Button>
-
           <Space h="sm" />
-
           <Group>
             <Text>Don&apos;t have an account?</Text>
             <Link href="/register">
