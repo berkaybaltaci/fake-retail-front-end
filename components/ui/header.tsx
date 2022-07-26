@@ -8,13 +8,18 @@ import {
   Paper,
   Transition,
   Modal,
+  Button,
+  Notification,
 } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import Router, { useRouter } from 'next/router';
 import Image from 'next/image';
 import Cart from '../cart/cart';
 import { useCartContext } from '../../lib/context-store';
+import { gql } from '@apollo/client';
+import apolloClient from '../../lib/apollo';
+import { IconCheck } from '@tabler/icons';
 
 const HEADER_HEIGHT = '10 vh';
 
@@ -95,6 +100,32 @@ const useStyles = createStyles((theme) => ({
         theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
     },
   },
+
+  logoutContainer: {
+    color: 'white',
+    // opacity: 1,
+    top: '4%',
+    right: '2%',
+    position: 'fixed',
+    zIndex: 99999999,
+  },
+
+  logout: {
+    position: 'relative',
+  },
+
+  alertContainer: {
+    color: 'white',
+    // opacity: 1,
+    bottom: '2%',
+    left: '2%',
+    position: 'fixed',
+    zIndex: 99999999,
+  },
+
+  alert: {
+    position: 'relative',
+  },
 }));
 
 interface HeaderResponsiveProps {
@@ -109,19 +140,20 @@ const isProductsPageActive = (link: string) => {
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
+  const { classes, cx } = useStyles();
 
   const { isLoggedIn, setIsLoggedIn, activeLink, setActiveLink } =
     useCartContext();
-
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSuccessNotification, setShowSuccessNotification] =
+    useState<boolean>(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes('dummyAccessToken'));
     setActiveLink(asPath);
   }, [asPath, setActiveLink, setIsLoggedIn]);
-
-  const { classes, cx } = useStyles();
 
   const items = links
     .filter(
@@ -147,62 +179,127 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       </Link>
     ));
 
+  const logoutHandler = async () => {
+    setIsButtonDisabled(true);
+
+    // Create logout query
+    const mutationStr = `logout`;
+    const query = gql`
+        mutation {
+          ${mutationStr}
+        }
+      `;
+
+    try {
+      await apolloClient.mutate({
+        mutation: query,
+      });
+
+      // If logout is successful, show success notification and redirect the user
+      setShowSuccessNotification(true);
+      setTimeout(() => {
+        setShowSuccessNotification(false);
+        setIsButtonDisabled(false);
+        // Need to set the logout global state here
+        // since Router.push might not actually change the current url
+        // This way authentication status always updates
+        setIsLoggedIn(false);
+        Router.push('/');
+      }, 3000);
+    } catch (error: any) {
+      setIsButtonDisabled(false);
+      console.log(error.message);
+    }
+  };
+
   return (
-    <Header height={HEADER_HEIGHT} mb={0} className={classes.root}>
-      <Container className={classes.header}>
-        <Link href="/">
-          <a>
-            <Image
-              src="/images/app-logo.svg"
-              alt="App Logo"
-              width={90}
-              height={90}
-              onClick={() => setActiveLink('/')}
-            />
-          </a>
-        </Link>
-        <Group spacing={5} className={classes.links}>
-          {items}
-        </Group>
-
-        <Burger
-          opened={opened}
-          onClick={() => toggleOpened()}
-          className={classes.burger}
-          size="sm"
-        />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            cursor: 'pointer',
-          }}
-        >
-          <Image
-            src="/images/cart-icon.svg"
-            alt="Cart Icon"
-            width={90}
-            height={50}
-            onClick={() => setIsModalOpen(true)}
-          />
+    <>
+      {showSuccessNotification && (
+        <div className={classes.alertContainer}>
+          <Notification
+            icon={<IconCheck size={20} />}
+            color="teal"
+            title="Successfully logged out!"
+            className={classes.alert}
+            disallowClose
+          >
+            You are now being redirected...
+          </Notification>
         </div>
+      )}
+      <Header height={HEADER_HEIGHT} mb={0} className={classes.root}>
+        {isLoggedIn && (
+          <div className={classes.logoutContainer}>
+            <Button
+              variant="gradient"
+              gradient={{ from: 'orange', to: 'red' }}
+              className={classes.logout}
+              disabled={isButtonDisabled}
+              onClick={logoutHandler}
+            >
+              Logout
+            </Button>
+          </div>
+        )}
+        <Container className={classes.header}>
+          <Link href="/">
+            <a>
+              <Image
+                src="/images/app-logo.svg"
+                alt="App Logo"
+                width={90}
+                height={90}
+                onClick={() => setActiveLink('/')}
+              />
+            </a>
+          </Link>
+          <Group spacing={5} className={classes.links}>
+            {items}
+          </Group>
 
-        <Transition transition="pop-top-right" duration={200} mounted={opened}>
-          {(styles) => (
-            <Paper className={classes.dropdown} withBorder style={styles}>
-              {items}
-            </Paper>
-          )}
-        </Transition>
-      </Container>
+          <Burger
+            opened={opened}
+            onClick={() => toggleOpened()}
+            className={classes.burger}
+            size="sm"
+          />
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              cursor: 'pointer',
+            }}
+          >
+            <Image
+              src="/images/cart-icon.svg"
+              alt="Cart Icon"
+              width={90}
+              height={50}
+              onClick={() => setIsModalOpen(true)}
+            />
+          </div>
 
-      <Modal
-        opened={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Your Cart"
-      >
-        <Cart />
-      </Modal>
-    </Header>
+          <Transition
+            transition="pop-top-right"
+            duration={200}
+            mounted={opened}
+          >
+            {(styles) => (
+              <Paper className={classes.dropdown} withBorder style={styles}>
+                {items}
+              </Paper>
+            )}
+          </Transition>
+        </Container>
+
+        <Modal
+          opened={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Your Cart"
+        >
+          <Cart />
+        </Modal>
+      </Header>
+    </>
   );
 }
