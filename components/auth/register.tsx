@@ -11,8 +11,8 @@ import {
   Notification,
 } from '@mantine/core';
 
-import { useLoginStyles } from '../../styles/auth/login.styles';
-import apolloClient from '../../lib/apollo';
+import { useAuthStyles } from '../../styles/auth/auth.styles';
+import apolloClient from '../../lib/apollo-client';
 import { gql } from '@apollo/client';
 import Link from 'next/link';
 import { useCartContext } from '../../lib/context-store';
@@ -20,7 +20,7 @@ import Router from 'next/router';
 import { IconCheck } from '@tabler/icons';
 
 export function Register() {
-  const { classes } = useLoginStyles();
+  const { classes } = useAuthStyles();
 
   // If already logged in, redirect to home page
   const { isLoggedIn } = useCartContext();
@@ -28,12 +28,14 @@ export function Register() {
     Router.push('/');
   }
 
+  // States
   const [isInvalidCredentials, setIsInvalidCredentials] =
     useState<boolean>(false);
   const [showSuccessNotification, setShowSuccessNotification] =
     useState<boolean>(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
+  // Refs
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 

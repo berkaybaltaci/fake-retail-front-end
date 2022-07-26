@@ -4,14 +4,10 @@ import IProduct from '../../../types/IProduct';
 import { GetStaticProps } from 'next';
 
 import { gql } from '@apollo/client';
-import apolloClient from '../../../lib/apollo';
+import apolloClient from '../../../lib/apollo-client';
 import { Pagination, Space, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
-
-import { Title } from '@mantine/core';
-
-// Constants
-const PRODUCTS_PER_PAGE = 10;
+import { PRODUCTS_PER_PAGE } from '../../../lib/constants';
 
 const AllProductsPage: NextPage<{
   allProducts: IProduct[];

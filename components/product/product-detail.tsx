@@ -97,7 +97,6 @@ export const ProductDetail: React.FC<{
       }, 2000);
     } else {
       Router.push('/login');
-      console.log('Not authenticated - product detail');
     }
   };
 

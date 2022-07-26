@@ -2,22 +2,17 @@ import { ApolloProvider } from '@apollo/client';
 import type { AppProps } from 'next/app';
 import NextNProgress from 'nextjs-progressbar';
 import { HeaderResponsive } from '../components/ui/header';
-import apolloClient from '../lib/apollo';
+import apolloClient from '../lib/apollo-client';
+import { LINKS } from '../lib/constants';
 import { CartProvider } from '../lib/context-store';
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const links = [
-    { link: '/', label: 'Home Page' },
-    { link: '/products/page/1', label: 'Products' },
-    { link: '/login', label: 'Login' },
-    { link: '/register', label: 'Register' },
-  ];
   return (
     <CartProvider>
       <ApolloProvider client={apolloClient}>
         <NextNProgress />
-        <HeaderResponsive links={links} />
+        <HeaderResponsive links={LINKS} />
         <Component {...pageProps} />
       </ApolloProvider>
     </CartProvider>

@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { ProductDetail } from '../../components/product/product-detail';
 import { createStyles } from '@mantine/core';
 import { gql } from '@apollo/client';
-import apolloClient from '../../lib/apollo';
+import apolloClient from '../../lib/apollo-client';
 import IProduct from '../../types/IProduct';
 
 const ProductDetailPage: NextPage<{ product: IProduct }> = ({ product }) => {

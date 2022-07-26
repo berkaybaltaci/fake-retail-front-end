@@ -13,28 +13,31 @@ import {
 import { Notification } from '@mantine/core';
 import { IconCheck } from '@tabler/icons';
 
-import { useLoginStyles } from '../../styles/auth/login.styles';
-import apolloClient from '../../lib/apollo';
+import { useAuthStyles } from '../../styles/auth/auth.styles';
+import apolloClient from '../../lib/apollo-client';
 import { gql } from '@apollo/client';
 import Router from 'next/router';
 import Link from 'next/link';
 import { useCartContext } from '../../lib/context-store';
 
 export function Login() {
-  const { isLoggedIn, setIsLoggedIn } = useCartContext();
+  const { isLoggedIn } = useCartContext();
 
   // If already logged in, redirect to home page
   if (isLoggedIn) {
     Router.push('/');
   }
 
-  const { classes } = useLoginStyles();
+  const { classes } = useAuthStyles();
 
+  // States
   const [showSuccessNotification, setShowSuccessNotification] =
     useState<boolean>(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const [isInvalidCredentials, setIsInvalidCredentials] =
     useState<boolean>(false);
+
+  // Refs
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -61,6 +64,7 @@ export function Login() {
     `;
 
     try {
+      // Send the request to login
       await apolloClient.mutate({
         mutation: query,
       });

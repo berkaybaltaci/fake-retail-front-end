@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  createStyles,
   Header,
   Container,
   Group,
@@ -18,137 +17,25 @@ import Image from 'next/image';
 import Cart from '../cart/cart';
 import { useCartContext } from '../../lib/context-store';
 import { gql } from '@apollo/client';
-import apolloClient from '../../lib/apollo';
+import apolloClient from '../../lib/apollo-client';
 import { IconCheck } from '@tabler/icons';
-
-const HEADER_HEIGHT = '10 vh';
-
-const useStyles = createStyles((theme) => ({
-  root: {
-    position: 'relative',
-    zIndex: 1,
-  },
-
-  dropdown: {
-    position: 'absolute',
-    top: HEADER_HEIGHT,
-    left: 0,
-    right: 0,
-    zIndex: 0,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-    borderTopWidth: 0,
-    overflow: 'hidden',
-
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '100%',
-  },
-
-  links: {
-    [theme.fn.smallerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  burger: {
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
-  },
-
-  link: {
-    display: 'block',
-    lineHeight: 1,
-    padding: '8px 12px',
-    borderRadius: theme.radius.sm,
-    textDecoration: 'none',
-    color:
-      theme.colorScheme === 'dark'
-        ? theme.colors.dark[0]
-        : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
-    fontWeight: 500,
-
-    '&:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.colors.dark[6]
-          : theme.colors.gray[0],
-    },
-
-    [theme.fn.smallerThan('sm')]: {
-      borderRadius: 0,
-      padding: theme.spacing.md,
-    },
-  },
-
-  linkActive: {
-    '&, &:hover': {
-      backgroundColor:
-        theme.colorScheme === 'dark'
-          ? theme.fn.rgba(theme.colors[theme.primaryColor][9], 0.25)
-          : theme.colors[theme.primaryColor][0],
-      color:
-        theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 3 : 7],
-    },
-  },
-
-  logoutContainer: {
-    color: 'white',
-    // opacity: 1,
-    top: '4%',
-    right: '2%',
-    position: 'fixed',
-    zIndex: 99999999,
-  },
-
-  logout: {
-    position: 'relative',
-  },
-
-  alertContainer: {
-    color: 'white',
-    // opacity: 1,
-    bottom: '2%',
-    left: '2%',
-    position: 'fixed',
-    zIndex: 99999999,
-  },
-
-  alert: {
-    position: 'relative',
-  },
-}));
-
-interface HeaderResponsiveProps {
-  links: { link: string; label: string }[];
-}
-
-const isProductsPageActive = (link: string) => {
-  return (
-    link.length > 1 && link.substring(0, link.length - 1) == '/products/page/'
-  );
-};
+import { HEADER_HEIGHT, useHeaderStyles } from '../../styles/ui/header.styles';
+import { isProductsPageActive } from '../../lib/util';
+import HeaderResponsiveProps from '../../types/HeaderResponsiveProps';
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
-  const { classes, cx } = useStyles();
+  const { classes, cx } = useHeaderStyles();
 
+  // States
   const { isLoggedIn, setIsLoggedIn, activeLink, setActiveLink } =
     useCartContext();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showSuccessNotification, setShowSuccessNotification] =
     useState<boolean>(false);
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const [isLogoutButtonDisabled, setIsLogoutButtonDisabled] =
+    useState<boolean>(false);
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes('dummyAccessToken'));
@@ -180,7 +67,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
     ));
 
   const logoutHandler = async () => {
-    setIsButtonDisabled(true);
+    setIsLogoutButtonDisabled(true);
 
     // Create logout query
     const mutationStr = `logout`;
@@ -199,7 +86,8 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       setShowSuccessNotification(true);
       setTimeout(() => {
         setShowSuccessNotification(false);
-        setIsButtonDisabled(false);
+        setIsLogoutButtonDisabled(false);
+
         // Need to set the logout global state here
         // since Router.push might not actually change the current url
         // This way authentication status always updates
@@ -207,7 +95,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         Router.push('/');
       }, 3000);
     } catch (error: any) {
-      setIsButtonDisabled(false);
+      setIsLogoutButtonDisabled(false);
       console.log(error.message);
     }
   };
@@ -234,7 +122,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
               variant="gradient"
               gradient={{ from: 'orange', to: 'red' }}
               className={classes.logout}
-              disabled={isButtonDisabled}
+              disabled={isLogoutButtonDisabled}
               onClick={logoutHandler}
             >
               Logout
