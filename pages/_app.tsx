@@ -1,10 +1,10 @@
-import '../styles/globals.css';
-import type { AppProps } from 'next/app';
-import { HeaderResponsive } from '../components/ui/header';
 import { ApolloProvider } from '@apollo/client';
+import type { AppProps } from 'next/app';
+import NextNProgress from 'nextjs-progressbar';
+import { HeaderResponsive } from '../components/ui/header';
 import apolloClient from '../lib/apollo';
 import { CartProvider } from '../lib/context-store';
-import NextNProgress from 'nextjs-progressbar';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const links = [

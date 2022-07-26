@@ -39,9 +39,18 @@ export function Login() {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const loginHandler = async () => {
-    setIsButtonDisabled(true);
+    // Check for invalid input values
+    if (
+      !passwordRef.current?.value ||
+      !nameRef.current?.value ||
+      passwordRef.current?.value.trim() === '' ||
+      nameRef.current?.value.trim() === ''
+    ) {
+      setIsInvalidCredentials(true);
+      return;
+    }
 
-    // TODO: Check for invalid input values here
+    setIsButtonDisabled(true);
 
     // Create login query using input values
     const mutationStr = `login(input: { name: "${nameRef.current?.value}", password: "${passwordRef.current?.value}" })`;
@@ -64,7 +73,6 @@ export function Login() {
         Router.push('/');
       }, 3000);
     } catch (error: any) {
-      // TODO: Set invalid name or password error here
       setIsButtonDisabled(false);
       setIsInvalidCredentials(true);
       console.log(error.message);
