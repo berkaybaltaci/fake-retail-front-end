@@ -30,6 +30,8 @@ export function Register() {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const registerHandler = async () => {
+    // TODO: Need to check for invalid values here
+
     // Create login query using input values
     const mutationStr = `createUser(input: { name: "${nameRef.current?.value}", password: "${passwordRef.current?.value}" })`;
     const query = gql`

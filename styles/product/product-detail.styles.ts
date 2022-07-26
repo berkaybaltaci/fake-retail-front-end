@@ -40,4 +40,17 @@ export const useProductDetailStyles = createStyles((theme) => ({
         ? theme.colors.dark[2]
         : theme.colors.gray[5],
   },
+
+  alertContainer: {
+    color: 'white',
+    // opacity: 1,
+    bottom: '2%',
+    right: '2%',
+    position: 'fixed',
+    zIndex: 99999999,
+  },
+
+  alert: {
+    position: 'relative',
+  },
 }));

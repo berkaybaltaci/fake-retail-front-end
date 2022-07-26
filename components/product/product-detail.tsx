@@ -1,11 +1,24 @@
-import React from 'react';
-import { Card, Text, Group, Badge, Center, Button } from '@mantine/core';
+import React, { useState } from 'react';
+import {
+  Card,
+  Text,
+  Group,
+  Badge,
+  Center,
+  Button,
+  Notification,
+} from '@mantine/core';
 import { useProductDetailStyles } from '../../styles/product/product-detail.styles';
 import Image from 'next/image';
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import UpdateIcon from '@mui/icons-material/Update';
+import { IconCheck } from '@tabler/icons';
+import { useCartContext } from '../../lib/context-store';
+import Router from 'next/router';
+
+let timer: string | number | NodeJS.Timeout | undefined;
 
 export const ProductDetail: React.FC<{
   _id: string;
@@ -20,6 +33,7 @@ export const ProductDetail: React.FC<{
   isLocalOffer: boolean;
   isLimited: boolean;
 }> = ({
+  _id,
   name,
   imagePath,
   description,
@@ -32,6 +46,11 @@ export const ProductDetail: React.FC<{
   isLimited,
 }) => {
   const { classes } = useProductDetailStyles();
+
+  const [showItemAddedToCartNotification, setShowItemAddedToCartNotification] =
+    useState<boolean>(false);
+
+  const { addProductToCart, isLoggedIn } = useCartContext();
 
   const featuresData = [];
 
@@ -55,62 +74,102 @@ export const ProductDetail: React.FC<{
     </Center>
   ));
 
-  console.log(featuresData);
+  const handleAddToBasket = async () => {
+    if (isLoggedIn) {
+      addProductToCart({
+        _id,
+        name,
+        imagePath,
+        description,
+        price,
+        isNew,
+        isLimited,
+        isLocalOffer,
+        isReducedPrice,
+        isVerified,
+      });
+      if (timer) {
+        clearTimeout(timer);
+      }
+      setShowItemAddedToCartNotification(true);
+      timer = setTimeout(() => {
+        setShowItemAddedToCartNotification(false);
+      }, 2000);
+    } else {
+      Router.push('/login');
+      console.log('Not authenticated - product detail');
+    }
+  };
 
   return (
-    <Card withBorder radius="md" className={classes.card} shadow="xs">
-      <Card.Section className={classes.imageSection}>
-        <Image src={imagePath} width={700} height={400} alt="Product Image" />
-      </Card.Section>
-
-      <Group position="apart" mt="md">
-        <div>
-          <Text size="lg" weight={500}>
-            {name}
-          </Text>
-          <Text size="sm" color="dimmed">
-            {description}
-          </Text>
+    <>
+      {showItemAddedToCartNotification && (
+        <div className={classes.alertContainer}>
+          <Notification
+            icon={<IconCheck size={20} />}
+            title="Notification"
+            color="lime"
+            className={classes.alert}
+            disallowClose
+          >
+            Item added to cart!
+          </Notification>
         </div>
-      </Group>
-      <Badge mt="sm" mb="md" variant="outline">
-        {discount}% off
-      </Badge>
-
-      {featuresData.length > 0 && (
-        <Card.Section className={classes.section}>
-          <Text size="sm" color="dimmed" className={classes.label}>
-            FEATURES
-          </Text>
-
-          <Group spacing={20} mb={-8}>
-            {features}
-          </Group>
-        </Card.Section>
       )}
+      <Card withBorder radius="md" className={classes.card} shadow="xs">
+        <Card.Section className={classes.imageSection}>
+          <Image src={imagePath} width={700} height={400} alt="Product Image" />
+        </Card.Section>
 
-      <Card.Section className={classes.section}>
-        <Group spacing={30}>
+        <Group position="apart" mt="md">
           <div>
-            <Text size="xl" weight={700} sx={{ lineHeight: 1 }}>
-              £{price}
+            <Text size="lg" weight={500}>
+              {name}
             </Text>
-            <Text
-              size="sm"
-              color="dimmed"
-              weight={500}
-              sx={{ lineHeight: 1 }}
-              mt={5}
-            >
-              tax included
+            <Text size="sm" color="dimmed">
+              {description}
             </Text>
           </div>
-
-          <Button radius="xl" style={{ flex: 1 }}>
-            Add to basket
-          </Button>
         </Group>
-      </Card.Section>
-    </Card>
+        <Badge mt="sm" mb="md" variant="outline">
+          {discount}% off
+        </Badge>
+
+        {featuresData.length > 0 && (
+          <Card.Section className={classes.section}>
+            <Text size="sm" color="dimmed" className={classes.label}>
+              FEATURES
+            </Text>
+
+            <Group spacing={20} mb={-8}>
+              {features}
+            </Group>
+          </Card.Section>
+        )}
+
+        <Card.Section className={classes.section}>
+          <Group spacing={30}>
+            <div>
+              <Text size="xl" weight={700} sx={{ lineHeight: 1 }}>
+                £{price}
+              </Text>
+              <Text
+                size="sm"
+                color="dimmed"
+                weight={500}
+                sx={{ lineHeight: 1 }}
+                mt={5}
+              >
+                tax included
+              </Text>
+            </div>
+
+            <Button radius="xl" style={{ flex: 1 }} onClick={handleAddToBasket}>
+              Add to basket
+            </Button>
+          </Group>
+        </Card.Section>
+      </Card>
+    </>
   );
 };

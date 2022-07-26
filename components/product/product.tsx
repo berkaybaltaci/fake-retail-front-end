@@ -2,7 +2,6 @@ import { Card, Text, Badge, Button, useMantineTheme } from '@mantine/core';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCartContext } from '../../lib/context-store';
-import isLoggedIn from '../../lib/auth-checker';
 import Router from 'next/router';
 
 const Product: React.FC<{
@@ -35,11 +34,10 @@ const Product: React.FC<{
   const secondaryColor =
     theme.colorScheme === 'dark' ? theme.colors.dark[1] : theme.colors.gray[7];
 
-  const { addProductToCart } = useCartContext();
+  const { addProductToCart, isLoggedIn } = useCartContext();
 
   const handleAddToBasket = async () => {
-    const userExists = await isLoggedIn();
-    if (userExists) {
+    if (isLoggedIn) {
       addProductToCart({
         _id,
         name,

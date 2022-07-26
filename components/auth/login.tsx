@@ -41,6 +41,8 @@ export function Login() {
   const loginHandler = async () => {
     setIsButtonDisabled(true);
 
+    // TODO: Check for invalid input values here
+
     // Create login query using input values
     const mutationStr = `login(input: { name: "${nameRef.current?.value}", password: "${passwordRef.current?.value}" })`;
     const query = gql`
