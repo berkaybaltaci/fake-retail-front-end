@@ -6,6 +6,8 @@ interface ICartContext {
   addProductToCart: (product: IProduct) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (val: boolean) => void;
+  activeLink: string;
+  setActiveLink: (link: string) => void;
 }
 
 const cartContextDefaultValues: ICartContext = {
@@ -13,6 +15,8 @@ const cartContextDefaultValues: ICartContext = {
   addProductToCart: () => {},
   isLoggedIn: false,
   setIsLoggedIn: () => {},
+  activeLink: '',
+  setActiveLink: () => {},
 };
 
 const CartContext = createContext<ICartContext>(cartContextDefaultValues);
@@ -28,6 +32,7 @@ type Props = {
 export function CartProvider({ children }: Props) {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [activeLink, setActiveLink] = useState<string>('');
 
   const addProductToCart = (product: IProduct) => {
     setProducts((prev: IProduct[]) => {
@@ -41,6 +46,8 @@ export function CartProvider({ children }: Props) {
     addProductToCart,
     isLoggedIn,
     setIsLoggedIn,
+    activeLink,
+    setActiveLink,
   };
   return (
     <>

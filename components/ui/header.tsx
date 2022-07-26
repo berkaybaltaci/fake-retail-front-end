@@ -110,16 +110,17 @@ const isProductsPageActive = (link: string) => {
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
 
-  const { isLoggedIn, setIsLoggedIn } = useCartContext();
+  const { isLoggedIn, setIsLoggedIn, activeLink, setActiveLink } =
+    useCartContext();
 
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes('dummyAccessToken'));
-  }, [setIsLoggedIn]);
+    setActiveLink(asPath);
+  }, [asPath, setActiveLink, setIsLoggedIn]);
 
-  const [active, setActive] = useState(asPath);
   const { classes, cx } = useStyles();
 
   const items = links
@@ -132,11 +133,12 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <a
           className={cx(classes.link, {
             [classes.linkActive]:
-              active === link.link ||
-              (link.link.includes('products') && isProductsPageActive(active)),
+              activeLink === link.link ||
+              (link.link.includes('products') &&
+                isProductsPageActive(activeLink)),
           })}
           onClick={() => {
-            setActive(link.link);
+            setActiveLink(link.link);
             toggleOpened(false);
           }}
         >
@@ -155,7 +157,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
               alt="App Logo"
               width={90}
               height={90}
-              onClick={() => setActive('/')}
+              onClick={() => setActiveLink('/')}
             />
           </a>
         </Link>

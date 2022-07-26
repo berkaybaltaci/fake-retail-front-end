@@ -33,6 +33,8 @@ export function Login() {
   const [showSuccessNotification, setShowSuccessNotification] =
     useState<boolean>(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
+  const [isInvalidCredentials, setIsInvalidCredentials] =
+    useState<boolean>(false);
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -54,14 +56,15 @@ export function Login() {
 
       // If login is successful, show success notification and redirect the user
       setShowSuccessNotification(true);
+      setIsInvalidCredentials(false);
       setTimeout(() => {
-        setIsLoggedIn(true);
         setShowSuccessNotification(false);
         Router.push('/');
       }, 3000);
     } catch (error: any) {
       // TODO: Set invalid name or password error here
       setIsButtonDisabled(false);
+      setIsInvalidCredentials(true);
       console.log(error.message);
     }
   };
@@ -101,6 +104,7 @@ export function Login() {
             placeholder="Your username"
             size="md"
             ref={nameRef}
+            error={isInvalidCredentials}
           />
           <PasswordInput
             label="Password"
@@ -108,6 +112,7 @@ export function Login() {
             mt="md"
             size="md"
             ref={passwordRef}
+            error={isInvalidCredentials && 'Invalid name or password'}
           />
           <Button
             fullWidth

@@ -5,7 +5,7 @@ import { GetStaticProps } from 'next';
 
 import { gql } from '@apollo/client';
 import apolloClient from '../../../lib/apollo';
-import { Pagination } from '@mantine/core';
+import { Pagination, Space, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
 
 import { Title } from '@mantine/core';
@@ -25,9 +25,15 @@ const AllProductsPage: NextPage<{
 
   return (
     <>
-      <Title align="center" mt={20} mb={-20}>
-        All Products
-      </Title>
+      <Space h="lg" />
+      <Text
+        align="center"
+        color="blue"
+        weight={800}
+        style={{ fontSize: '250%', fontFamily: 'Marcellus' }}
+      >
+        ALL PRODUCTS
+      </Text>
       <AllProducts products={allProducts} />
       <div
         style={{

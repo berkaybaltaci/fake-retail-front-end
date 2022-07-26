@@ -1,7 +1,7 @@
 import { Grid, Stack, Notification } from '@mantine/core';
 import IProduct from '../../types/IProduct';
 import Product from './product';
-import { IconAlertCircle, IconCheck } from '@tabler/icons';
+import { IconCheck } from '@tabler/icons';
 import { useAllProductsStyles } from '../../styles/product/all-products.styles';
 import { useState } from 'react';
 
@@ -42,7 +42,7 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
         <Grid
           justify="center"
           columns={60}
-          style={{ height: '100%', margin: '2%' }}
+          style={{ height: '100%', marginLeft: '2%', marginRight: '2%' }}
         >
           {products.map((singleProduct) => (
             <Grid.Col
