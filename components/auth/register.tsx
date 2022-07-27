@@ -8,7 +8,6 @@ import {
   Anchor,
   Group,
   Space,
-  Notification,
 } from '@mantine/core';
 
 import { useAuthStyles } from '../../styles/auth/auth.styles';
@@ -17,7 +16,7 @@ import { gql } from '@apollo/client';
 import Link from 'next/link';
 import { useCartContext } from '../../lib/context-store';
 import Router from 'next/router';
-import { IconCheck } from '@tabler/icons';
+import CustomNotification from '../ui/custom-notification';
 
 export function Register() {
   const { classes } = useAuthStyles();
@@ -83,17 +82,10 @@ export function Register() {
   return (
     <>
       {showSuccessNotification && (
-        <div className={classes.alertContainer}>
-          <Notification
-            icon={<IconCheck size={20} />}
-            color="teal"
-            title="Successfully registered!"
-            className={classes.alert}
-            disallowClose
-          >
-            You are now being redirected...
-          </Notification>
-        </div>
+        <CustomNotification
+          title="Successfully registered!"
+          message="You are now being redirected..."
+        />
       )}
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>

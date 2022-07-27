@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
-import {
-  Card,
-  Text,
-  Group,
-  Badge,
-  Center,
-  Button,
-  Notification,
-} from '@mantine/core';
+import { Card, Text, Group, Badge, Center, Button } from '@mantine/core';
 import { useProductDetailStyles } from '../../styles/product/product-detail.styles';
 import Image from 'next/image';
 import GppGoodIcon from '@mui/icons-material/GppGood';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import UpdateIcon from '@mui/icons-material/Update';
-import { IconCheck } from '@tabler/icons';
 import { useCartContext } from '../../lib/context-store';
 import Router from 'next/router';
+import CustomNotification from '../ui/custom-notification';
 
 let timer: string | number | NodeJS.Timeout | undefined;
 
@@ -103,17 +95,10 @@ export const ProductDetail: React.FC<{
   return (
     <>
       {showItemAddedToCartNotification && (
-        <div className={classes.alertContainer}>
-          <Notification
-            icon={<IconCheck size={20} />}
-            title="Notification"
-            color="lime"
-            className={classes.alert}
-            disallowClose
-          >
-            Item added to cart!
-          </Notification>
-        </div>
+        <CustomNotification
+          title="Notification"
+          message="Item added to cart!"
+        />
       )}
       <Card withBorder radius="md" className={classes.card} shadow="xs">
         <Card.Section className={classes.imageSection}>

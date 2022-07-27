@@ -36,17 +36,4 @@ export const useAuthStyles = createStyles((theme) => ({
     marginLeft: 'auto',
     marginRight: 'auto',
   },
-
-  alertContainer: {
-    color: 'white',
-    // opacity: 1,
-    bottom: '2%',
-    left: '2%',
-    position: 'fixed',
-    zIndex: 99999999,
-  },
-
-  alert: {
-    position: 'relative',
-  },
 }));

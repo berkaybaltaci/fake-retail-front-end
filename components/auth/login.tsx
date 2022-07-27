@@ -1,17 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Paper,
   TextInput,
   PasswordInput,
   Button,
-  Title,
   Text,
   Anchor,
   Group,
   Space,
 } from '@mantine/core';
-import { Notification } from '@mantine/core';
-import { IconCheck } from '@tabler/icons';
 
 import { useAuthStyles } from '../../styles/auth/auth.styles';
 import apolloClient from '../../lib/apollo-client';
@@ -19,6 +16,7 @@ import { gql } from '@apollo/client';
 import Router from 'next/router';
 import Link from 'next/link';
 import { useCartContext } from '../../lib/context-store';
+import CustomNotification from '../ui/custom-notification';
 
 export function Login() {
   const { isLoggedIn } = useCartContext();
@@ -86,17 +84,10 @@ export function Login() {
   return (
     <>
       {showSuccessNotification && (
-        <div className={classes.alertContainer}>
-          <Notification
-            icon={<IconCheck size={20} />}
-            color="teal"
-            title="Successfully logged in!"
-            className={classes.alert}
-            disallowClose
-          >
-            You are now being redirected...
-          </Notification>
-        </div>
+        <CustomNotification
+          title="Successfully logged in!"
+          message="You are now being redirected..."
+        />
       )}
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>

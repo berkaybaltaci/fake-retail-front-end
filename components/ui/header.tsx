@@ -8,7 +8,6 @@ import {
   Transition,
   Modal,
   Button,
-  Notification,
 } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
@@ -18,10 +17,11 @@ import Cart from '../cart/cart';
 import { useCartContext } from '../../lib/context-store';
 import { gql } from '@apollo/client';
 import apolloClient from '../../lib/apollo-client';
-import { IconCheck } from '@tabler/icons';
-import { HEADER_HEIGHT, useHeaderStyles } from '../../styles/ui/header.styles';
+import { useHeaderStyles } from '../../styles/ui/header.styles';
 import { isProductsPageActive } from '../../lib/util';
 import HeaderResponsiveProps from '../../types/HeaderResponsiveProps';
+import { HEADER_HEIGHT } from '../../lib/constants';
+import CustomNotification from './custom-notification';
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
@@ -103,17 +103,10 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   return (
     <>
       {showSuccessNotification && (
-        <div className={classes.alertContainer}>
-          <Notification
-            icon={<IconCheck size={20} />}
-            color="teal"
-            title="Successfully logged out!"
-            className={classes.alert}
-            disallowClose
-          >
-            You are now being redirected...
-          </Notification>
-        </div>
+        <CustomNotification
+          title="Successfully logged out!"
+          message="You are now being redirected..."
+        />
       )}
       <Header height={HEADER_HEIGHT} mb={0} className={classes.root}>
         {isLoggedIn && (

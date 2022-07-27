@@ -1,15 +1,12 @@
-import { Grid, Stack, Notification } from '@mantine/core';
+import { Grid, Stack } from '@mantine/core';
 import IProduct from '../../types/IProduct';
 import Product from './product';
-import { IconCheck } from '@tabler/icons';
-import { useAllProductsStyles } from '../../styles/product/all-products.styles';
 import { useState } from 'react';
+import CustomNotification from '../ui/custom-notification';
 
 let timer: string | number | NodeJS.Timeout | undefined | null;
 
 const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
-  const { classes } = useAllProductsStyles();
-
   const [showItemAddedToCartNotification, setShowItemAddedToCartNotification] =
     useState<boolean>(false);
 
@@ -26,17 +23,10 @@ const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
   return (
     <>
       {showItemAddedToCartNotification && (
-        <div className={classes.alertContainer}>
-          <Notification
-            icon={<IconCheck size={20} />}
-            title="Notification"
-            color="lime"
-            className={classes.alert}
-            disallowClose
-          >
-            Item added to cart!
-          </Notification>
-        </div>
+        <CustomNotification
+          title="Notification"
+          message="Item added to cart!"
+        />
       )}
       <Stack>
         <Grid
