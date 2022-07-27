@@ -109,19 +109,6 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         />
       )}
       <Header height={HEADER_HEIGHT} mb={0} className={classes.root}>
-        {isLoggedIn && (
-          <div className={classes.logoutContainer}>
-            <Button
-              variant="gradient"
-              gradient={{ from: 'orange', to: 'red' }}
-              className={classes.logout}
-              disabled={isLogoutButtonDisabled}
-              onClick={logoutHandler}
-            >
-              Logout
-            </Button>
-          </div>
-        )}
         <Container className={classes.header}>
           <Link href="/">
             <a>
@@ -144,21 +131,37 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             className={classes.burger}
             size="sm"
           />
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              cursor: 'pointer',
-            }}
-          >
-            <Image
-              src="/images/cart-icon.svg"
-              alt="Cart Icon"
-              width={90}
-              height={50}
-              onClick={() => setIsModalOpen(true)}
-            />
-          </div>
+          <Group>
+            <div
+              style={{
+                cursor: 'pointer',
+              }}
+            >
+              <Image
+                src="/images/cart-icon.svg"
+                alt="Cart Icon"
+                width={90}
+                height={50}
+                onClick={() => setIsModalOpen(true)}
+              />
+            </div>
+            {isLoggedIn && (
+              <div
+                className={classes.logoutContainer}
+                style={{ background: 'red', justifySelf: 'end' }}
+              >
+                <Button
+                  variant="gradient"
+                  gradient={{ from: 'orange', to: 'red' }}
+                  className={classes.logout}
+                  disabled={isLogoutButtonDisabled}
+                  onClick={logoutHandler}
+                >
+                  Logout
+                </Button>
+              </div>
+            )}
+          </Group>
 
           <Transition
             transition="pop-top-right"

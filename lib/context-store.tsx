@@ -4,6 +4,7 @@ import IProduct from '../types/IProduct';
 interface ICartContext {
   products: IProduct[];
   addProductToCart: (product: IProduct) => void;
+  removeProductFromCart: (product: IProduct) => void;
   isLoggedIn: boolean;
   setIsLoggedIn: (val: boolean) => void;
   activeLink: string;
@@ -13,6 +14,7 @@ interface ICartContext {
 const cartContextDefaultValues: ICartContext = {
   products: [],
   addProductToCart: () => {},
+  removeProductFromCart: () => {},
   isLoggedIn: false,
   setIsLoggedIn: () => {},
   activeLink: '',
@@ -41,9 +43,17 @@ export function CartProvider({ children }: Props) {
     });
   };
 
+  const removeProductFromCart = (product: IProduct) => {
+    setProducts((prev: IProduct[]) => {
+      const updatedCart = prev.filter((item) => item !== product);
+      return updatedCart;
+    });
+  };
+
   const value = {
     products,
     addProductToCart,
+    removeProductFromCart,
     isLoggedIn,
     setIsLoggedIn,
     activeLink,
