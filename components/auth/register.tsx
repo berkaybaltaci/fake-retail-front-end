@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { useCartContext } from '../../lib/context-store';
 import Router from 'next/router';
 import CustomNotification from '../ui/custom-notification';
+import useShowNotification from '../../hooks/use-show-notification';
 
 export function Register() {
   const { classes } = useAuthStyles();
@@ -27,10 +28,12 @@ export function Register() {
     Router.push('/');
   }
 
+  const { displayNotification, isShowingNotification } = useShowNotification([
+    () => Router.push('/login'),
+  ]);
+
   // States
   const [isInvalidCredentials, setIsInvalidCredentials] =
-    useState<boolean>(false);
-  const [showSuccessNotification, setShowSuccessNotification] =
     useState<boolean>(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
@@ -69,19 +72,15 @@ export function Register() {
       });
 
       // If registration is successful, show success notification and redirect the user to login page
-      setShowSuccessNotification(true);
       setIsInvalidCredentials(false);
-      setTimeout(() => {
-        setShowSuccessNotification(false);
-        Router.push('/login');
-      }, 3000);
+      displayNotification();
     } catch (error) {
       console.log(error);
     }
   };
   return (
     <>
-      {showSuccessNotification && (
+      {isShowingNotification && (
         <CustomNotification
           title="Successfully registered!"
           message="You are now being redirected..."

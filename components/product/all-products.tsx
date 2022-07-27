@@ -1,28 +1,19 @@
 import { Grid, Stack } from '@mantine/core';
 import IProduct from '../../types/IProduct';
 import Product from './product';
-import { useState } from 'react';
 import CustomNotification from '../ui/custom-notification';
-
-let timer: string | number | NodeJS.Timeout | undefined | null;
+import useShowNotification from '../../hooks/use-show-notification';
 
 const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
-  const [showItemAddedToCartNotification, setShowItemAddedToCartNotification] =
-    useState<boolean>(false);
+  const { displayNotification, isShowingNotification } = useShowNotification();
 
   const addItemToCartHandler = () => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    setShowItemAddedToCartNotification(true);
-    timer = setTimeout(() => {
-      setShowItemAddedToCartNotification(false);
-    }, 2000);
+    displayNotification();
   };
 
   return (
     <>
-      {showItemAddedToCartNotification && (
+      {isShowingNotification && (
         <CustomNotification
           title="Notification"
           message="Item added to cart!"

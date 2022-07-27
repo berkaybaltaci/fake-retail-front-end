@@ -4,7 +4,7 @@ export const useCustomNotificationStyles = createStyles(() => ({
   alertContainer: {
     color: 'white',
     bottom: '2%',
-    left: '2%',
+    right: '2%',
     position: 'fixed',
     zIndex: 99999999,
   },

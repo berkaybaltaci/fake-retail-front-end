@@ -9,8 +9,7 @@ import UpdateIcon from '@mui/icons-material/Update';
 import { useCartContext } from '../../lib/context-store';
 import Router from 'next/router';
 import CustomNotification from '../ui/custom-notification';
-
-let timer: string | number | NodeJS.Timeout | undefined;
+import useShowNotification from '../../hooks/use-show-notification';
 
 export const ProductDetail: React.FC<{
   _id: string;
@@ -39,8 +38,7 @@ export const ProductDetail: React.FC<{
 }) => {
   const { classes } = useProductDetailStyles();
 
-  const [showItemAddedToCartNotification, setShowItemAddedToCartNotification] =
-    useState<boolean>(false);
+  const { displayNotification, isShowingNotification } = useShowNotification();
 
   const { addProductToCart, isLoggedIn } = useCartContext();
 
@@ -80,13 +78,7 @@ export const ProductDetail: React.FC<{
         isReducedPrice,
         isVerified,
       });
-      if (timer) {
-        clearTimeout(timer);
-      }
-      setShowItemAddedToCartNotification(true);
-      timer = setTimeout(() => {
-        setShowItemAddedToCartNotification(false);
-      }, 2000);
+      displayNotification();
     } else {
       Router.push('/login');
     }
@@ -94,7 +86,7 @@ export const ProductDetail: React.FC<{
 
   return (
     <>
-      {showItemAddedToCartNotification && (
+      {isShowingNotification && (
         <CustomNotification
           title="Notification"
           message="Item added to cart!"

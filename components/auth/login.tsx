@@ -17,6 +17,7 @@ import Router from 'next/router';
 import Link from 'next/link';
 import { useCartContext } from '../../lib/context-store';
 import CustomNotification from '../ui/custom-notification';
+import useShowNotification from '../../hooks/use-show-notification';
 
 export function Login() {
   const { isLoggedIn } = useCartContext();
@@ -27,10 +28,11 @@ export function Login() {
   }
 
   const { classes } = useAuthStyles();
+  const { displayNotification, isShowingNotification } = useShowNotification([
+    () => Router.push('/'),
+  ]);
 
   // States
-  const [showSuccessNotification, setShowSuccessNotification] =
-    useState<boolean>(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
   const [isInvalidCredentials, setIsInvalidCredentials] =
     useState<boolean>(false);
@@ -68,12 +70,8 @@ export function Login() {
       });
 
       // If login is successful, show success notification and redirect the user
-      setShowSuccessNotification(true);
       setIsInvalidCredentials(false);
-      setTimeout(() => {
-        setShowSuccessNotification(false);
-        Router.push('/');
-      }, 3000);
+      displayNotification();
     } catch (error: any) {
       setIsButtonDisabled(false);
       setIsInvalidCredentials(true);
@@ -83,7 +81,7 @@ export function Login() {
 
   return (
     <>
-      {showSuccessNotification && (
+      {isShowingNotification && (
         <CustomNotification
           title="Successfully logged in!"
           message="You are now being redirected..."
