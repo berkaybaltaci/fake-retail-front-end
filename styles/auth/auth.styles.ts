@@ -1,5 +1,5 @@
 import { createStyles } from '@mantine/core';
-import { MAIN_CONTENT_HEIGHT } from '../../lib/constants';
+import { BACKGROUND_COLOR, MAIN_CONTENT_HEIGHT } from '../../lib/constants';
 
 export const useAuthStyles = createStyles((theme) => ({
   wrapper: {
@@ -18,6 +18,7 @@ export const useAuthStyles = createStyles((theme) => ({
     height: MAIN_CONTENT_HEIGHT,
     maxWidth: '30%',
     paddingTop: 80,
+    backgroundColor: BACKGROUND_COLOR,
 
     [`@media (max-width: ${theme.breakpoints.sm}px)`]: {
       maxWidth: '100%',

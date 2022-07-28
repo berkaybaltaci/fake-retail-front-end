@@ -20,7 +20,7 @@ import apolloClient from '../../lib/apollo-client';
 import { useHeaderStyles } from '../../styles/ui/header.styles';
 import { isProductsPageActive } from '../../lib/util';
 import HeaderResponsiveProps from '../../types/HeaderResponsiveProps';
-import { HEADER_HEIGHT } from '../../lib/constants';
+import { HEADER_COLOR, HEADER_HEIGHT } from '../../lib/constants';
 import CustomNotification from './custom-notification';
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
@@ -108,7 +108,12 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
           message="You are now being redirected..."
         />
       )}
-      <Header height={HEADER_HEIGHT} mb={0} className={classes.root}>
+      <Header
+        height={HEADER_HEIGHT}
+        mb={0}
+        className={classes.root}
+        style={{ backgroundColor: HEADER_COLOR }}
+      >
         <Container className={classes.header}>
           <Link href="/">
             <a>

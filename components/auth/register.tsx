@@ -18,6 +18,7 @@ import { useCartContext } from '../../lib/context-store';
 import Router from 'next/router';
 import CustomNotification from '../ui/custom-notification';
 import useShowNotification from '../../hooks/use-show-notification';
+import { BUTTON_COLOR, TITLE_COLOR } from '../../lib/constants';
 
 export function Register() {
   const { classes } = useAuthStyles();
@@ -94,7 +95,11 @@ export function Register() {
             mb={50}
             color="blue"
             weight={800}
-            style={{ fontSize: '250%', fontFamily: 'Marcellus' }}
+            style={{
+              fontSize: '250%',
+              fontFamily: 'Marcellus',
+              color: TITLE_COLOR,
+            }}
           >
             Register Here
           </Text>
@@ -121,6 +126,7 @@ export function Register() {
             size="md"
             onClick={registerHandler}
             disabled={isButtonDisabled}
+            style={{ backgroundColor: BUTTON_COLOR }}
           >
             Register
           </Button>

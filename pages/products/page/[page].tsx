@@ -7,7 +7,7 @@ import { gql } from '@apollo/client';
 import apolloClient from '../../../lib/apollo-client';
 import { Pagination, Space, Text } from '@mantine/core';
 import { useRouter } from 'next/router';
-import { PRODUCTS_PER_PAGE } from '../../../lib/constants';
+import { PRODUCTS_PER_PAGE, TITLE_COLOR } from '../../../lib/constants';
 
 const AllProductsPage: NextPage<{
   allProducts: IProduct[];
@@ -26,7 +26,11 @@ const AllProductsPage: NextPage<{
         align="center"
         color="blue"
         weight={800}
-        style={{ fontSize: '250%', fontFamily: 'Marcellus' }}
+        style={{
+          fontSize: '250%',
+          fontFamily: 'Marcellus',
+          color: TITLE_COLOR,
+        }}
       >
         ALL PRODUCTS
       </Text>
@@ -35,7 +39,7 @@ const AllProductsPage: NextPage<{
         style={{
           display: 'flex',
           justifyContent: 'center',
-          margin: '1%',
+          padding: '1%',
         }}
       >
         <Pagination

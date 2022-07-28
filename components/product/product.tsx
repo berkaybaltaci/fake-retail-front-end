@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCartContext } from '../../lib/context-store';
 import Router from 'next/router';
+import { BUTTON_COLOR, TITLE_COLOR } from '../../lib/constants';
 
 const Product: React.FC<{
   _id: string;
@@ -65,10 +66,9 @@ const Product: React.FC<{
             <Card.Section>
               <Image
                 src={imagePath}
-                layout="fixed"
+                layout="intrinsic"
                 width={300}
                 height={200}
-                // style={{ height: '50%' }}
                 alt="Product Image"
               />
             </Card.Section>
@@ -129,10 +129,11 @@ const Product: React.FC<{
         </Link>
 
         <Button
-          variant="light"
-          color="blue"
           fullWidth
-          style={{ marginTop: 10 }}
+          style={{
+            marginTop: 10,
+            backgroundColor: BUTTON_COLOR,
+          }}
           onClick={handleAddToBasket}
         >
           Add to basket

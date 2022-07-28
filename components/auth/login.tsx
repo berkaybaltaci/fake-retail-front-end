@@ -18,6 +18,7 @@ import Link from 'next/link';
 import { useCartContext } from '../../lib/context-store';
 import CustomNotification from '../ui/custom-notification';
 import useShowNotification from '../../hooks/use-show-notification';
+import { BUTTON_COLOR, TITLE_COLOR } from '../../lib/constants';
 
 export function Login() {
   const { isLoggedIn } = useCartContext();
@@ -90,14 +91,16 @@ export function Login() {
       <div className={classes.wrapper}>
         <Paper className={classes.form} radius={0} p={30}>
           <Text
-            // order={2}
-            // className={classes.title}
             align="center"
             mt="md"
             mb={50}
             color="blue"
             weight={800}
-            style={{ fontSize: '250%', fontFamily: 'Marcellus' }}
+            style={{
+              fontSize: '250%',
+              fontFamily: 'Marcellus',
+              color: TITLE_COLOR,
+            }}
           >
             Login Here
           </Text>
@@ -123,6 +126,7 @@ export function Login() {
             size="md"
             onClick={loginHandler}
             disabled={isButtonDisabled}
+            style={{ backgroundColor: BUTTON_COLOR }}
           >
             Login
           </Button>

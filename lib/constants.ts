@@ -3,9 +3,16 @@ export const LINKS = [
   { link: '/products/page/1', label: 'Products' },
   { link: '/login', label: 'Login' },
   { link: '/register', label: 'Register' },
-] as const;
+];
 
 export const PRODUCTS_PER_PAGE = 10;
 
-export const HEADER_HEIGHT = '10 vh';
+// Dimension
+export const HEADER_HEIGHT = '10vh';
 export const MAIN_CONTENT_HEIGHT = '90vh';
+
+// Colors
+export const BACKGROUND_COLOR = '#CAF0F8';
+export const HEADER_COLOR = '#90E0EF';
+export const BUTTON_COLOR = '#00B4D8';
+export const TITLE_COLOR = '#03045E';
