@@ -67,8 +67,8 @@ const Product: React.FC<{
               <Image
                 src={imagePath}
                 layout="intrinsic"
-                width={300}
-                height={200}
+                width={600}
+                height={400}
                 alt="Product Image"
               />
             </Card.Section>
@@ -122,7 +122,7 @@ const Product: React.FC<{
                 gradient={{ from: 'teal', to: 'lime', deg: 105 }}
                 mt={5}
               >
-                <Text weight={700}>{price} £</Text>
+                <Text weight={700}>£{price}</Text>
               </Badge>
             </div>
           </a>

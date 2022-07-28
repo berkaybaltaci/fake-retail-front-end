@@ -22,6 +22,7 @@ import { isProductsPageActive } from '../../lib/util';
 import HeaderResponsiveProps from '../../types/HeaderResponsiveProps';
 import { HEADER_COLOR, HEADER_HEIGHT } from '../../lib/constants';
 import CustomNotification from './custom-notification';
+import useShowNotification from '../../hooks/use-show-notification';
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
@@ -32,10 +33,14 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
     useCartContext();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showSuccessNotification, setShowSuccessNotification] =
-    useState<boolean>(false);
   const [isLogoutButtonDisabled, setIsLogoutButtonDisabled] =
     useState<boolean>(false);
+
+  const { displayNotification, isShowingNotification } = useShowNotification([
+    () => setIsLoggedIn(false),
+    () => Router.push('/'),
+    () => setIsLogoutButtonDisabled(false),
+  ]);
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes('dummyAccessToken'));
@@ -83,17 +88,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
       });
 
       // If logout is successful, show success notification and redirect the user
-      setShowSuccessNotification(true);
-      setTimeout(() => {
-        setShowSuccessNotification(false);
-        setIsLogoutButtonDisabled(false);
-
-        // Need to set the logout global state here
-        // since Router.push might not actually change the current url
-        // This way authentication status always updates
-        setIsLoggedIn(false);
-        Router.push('/');
-      }, 3000);
+      displayNotification();
     } catch (error: any) {
       setIsLogoutButtonDisabled(false);
       console.log(error.message);
@@ -102,27 +97,23 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
 
   return (
     <>
-      {showSuccessNotification && (
+      {isShowingNotification && (
         <CustomNotification
           title="Successfully logged out!"
           message="You are now being redirected..."
         />
       )}
-      <Header
-        height={HEADER_HEIGHT}
-        mb={0}
-        className={classes.root}
-        style={{ backgroundColor: HEADER_COLOR }}
-      >
+      <Header height={HEADER_HEIGHT} className={classes.root}>
         <Container className={classes.header}>
           <Link href="/">
             <a>
               <Image
                 src="/images/app-logo.svg"
                 alt="App Logo"
-                width={90}
+                width={100}
                 height={90}
                 onClick={() => setActiveLink('/')}
+                className={classes.headerIcon}
               />
             </a>
           </Link>
@@ -148,7 +139,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
                 width={90}
                 height={50}
                 onClick={() => setIsModalOpen(true)}
-                className={classes.cartIcon}
+                className={classes.headerIcon}
               />
             </div>
             {isLoggedIn && (

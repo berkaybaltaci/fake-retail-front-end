@@ -1,10 +1,11 @@
 import { createStyles } from '@mantine/core';
-import { HEADER_HEIGHT } from '../../lib/constants';
+import { HEADER_COLOR, HEADER_HEIGHT } from '../../lib/constants';
 
 export const useHeaderStyles = createStyles((theme) => ({
   root: {
     position: 'relative',
     zIndex: 1,
+    backgroundColor: HEADER_COLOR,
   },
 
   dropdown: {
@@ -83,7 +84,7 @@ export const useHeaderStyles = createStyles((theme) => ({
     borderRadius: theme.radius.sm,
   },
 
-  cartIcon: {
+  headerIcon: {
     transition: 'all .2s ease-in-out',
     '&:hover': {
       transform: 'scale(1.1)',
