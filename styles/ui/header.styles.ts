@@ -80,16 +80,13 @@ export const useHeaderStyles = createStyles((theme) => ({
   },
 
   logoutContainer: {
-    // color: 'white',
-    // // opacity: 1,
-    // top: '4%',
-    // right: '2%',
-    // position: 'fixed',
-    // zIndex: 99999999,
     borderRadius: theme.radius.sm,
   },
 
-  logout: {
-    // position: 'relative',
+  cartIcon: {
+    transition: 'all .2s ease-in-out',
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
   },
 }));

@@ -3,7 +3,6 @@ import { BACKGROUND_COLOR, MAIN_CONTENT_HEIGHT } from '../../lib/constants';
 
 export const useAuthStyles = createStyles((theme) => ({
   wrapper: {
-    height: MAIN_CONTENT_HEIGHT,
     backgroundSize: `70% ${MAIN_CONTENT_HEIGHT}`,
     backgroundPositionX: '30vw',
     backgroundImage:

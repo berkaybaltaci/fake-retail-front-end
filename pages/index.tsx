@@ -4,7 +4,7 @@ import { MAIN_CONTENT_HEIGHT } from '../lib/constants';
 
 const HomePage: NextPage = () => {
   return (
-    <div style={{ padding: '1px', height: MAIN_CONTENT_HEIGHT }}>
+    <div style={{ height: MAIN_CONTENT_HEIGHT }}>
       <Home viewCount={60} />
     </div>
   );

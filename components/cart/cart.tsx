@@ -1,6 +1,7 @@
 import { List } from '@mantine/core';
 import { useCartContext } from '../../lib/context-store';
 import { CircleMinus } from 'tabler-icons-react';
+import { BUTTON_COLOR } from '../../lib/constants';
 
 const Cart: React.FC = () => {
   const { products, removeProductFromCart } = useCartContext();
@@ -12,7 +13,7 @@ const Cart: React.FC = () => {
           key={item._id}
           icon={
             <CircleMinus
-              color="blue"
+              color={BUTTON_COLOR}
               onClick={() => removeProductFromCart(item)}
               style={{ cursor: 'pointer' }}
             />

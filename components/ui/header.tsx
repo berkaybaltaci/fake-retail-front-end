@@ -148,17 +148,14 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
                 width={90}
                 height={50}
                 onClick={() => setIsModalOpen(true)}
+                className={classes.cartIcon}
               />
             </div>
             {isLoggedIn && (
-              <div
-                className={classes.logoutContainer}
-                style={{ background: 'red', justifySelf: 'end' }}
-              >
+              <div className={classes.logoutContainer}>
                 <Button
                   variant="gradient"
                   gradient={{ from: 'orange', to: 'red' }}
-                  className={classes.logout}
                   disabled={isLogoutButtonDisabled}
                   onClick={logoutHandler}
                 >
