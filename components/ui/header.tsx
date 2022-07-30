@@ -23,7 +23,6 @@ import HeaderResponsiveProps from '../../types/HeaderResponsiveProps';
 import { HEADER_HEIGHT } from '../../lib/constants';
 import CustomNotification from './custom-notification';
 import useShowNotification from '../../hooks/use-show-notification';
-import { AnimatePresence } from 'framer-motion';
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();

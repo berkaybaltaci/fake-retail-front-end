@@ -1,5 +1,5 @@
 import { createStyles } from '@mantine/core';
-import { BUTTON_COLOR } from '../../lib/constants';
+import { BUTTON_COLOR, CART_ITEM_REMOVE_DELAY_SEC } from '../../lib/constants';
 
 export const useCartStyles = createStyles(() => ({
   minusIcon: {
@@ -11,8 +11,10 @@ export const useCartStyles = createStyles(() => ({
     },
   },
 
-  'item-exit-active': {
-    opacity: 0,
-    transition: 'opacity 700ms ease-out',
+  removing: {
+    cursor: 'pointer',
+    color: BUTTON_COLOR,
+    transition: `all ${CART_ITEM_REMOVE_DELAY_SEC} ease-in-out`,
+    transform: 'scale(0)',
   },
 }));

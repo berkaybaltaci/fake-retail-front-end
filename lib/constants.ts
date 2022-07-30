@@ -16,3 +16,8 @@ export const BACKGROUND_COLOR = '#CAF0F8';
 export const HEADER_COLOR = '#90E0EF';
 export const BUTTON_COLOR = '#00B4D8';
 export const TITLE_COLOR = '#03045E';
+
+// Cart
+export const CART_ITEM_REMOVE_DELAY_MS = 400;
+export const CART_ITEM_REMOVE_DELAY_SEC: string =
+  CART_ITEM_REMOVE_DELAY_MS / 1000 + 's';
