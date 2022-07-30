@@ -29,9 +29,11 @@ export function Register() {
     Router.push('/');
   }
 
-  const { displayNotification, isShowingNotification } = useShowNotification([
-    () => Router.push('/login'),
-  ]);
+  const { displayNotification, isShowingNotification, runCallbacks } =
+    useShowNotification(
+      [() => Router.push('/login'), () => setIsInvalidCredentials(false)],
+      2000
+    );
 
   // States
   const [isInvalidCredentials, setIsInvalidCredentials] =
@@ -72,9 +74,9 @@ export function Register() {
         mutation: query,
       });
 
-      // If registration is successful, show success notification and redirect the user to login page
-      setIsInvalidCredentials(false);
+      // If registration is successful, show success notification and run callback functions
       displayNotification();
+      runCallbacks();
     } catch (error) {
       console.log(error);
     }

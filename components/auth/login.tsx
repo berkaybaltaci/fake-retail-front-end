@@ -29,9 +29,11 @@ export function Login() {
   }
 
   const { classes } = useAuthStyles();
-  const { displayNotification, isShowingNotification } = useShowNotification([
-    () => Router.push('/'),
-  ]);
+  const { displayNotification, isShowingNotification, runCallbacks } =
+    useShowNotification(
+      [() => Router.push('/'), () => setIsInvalidCredentials(false)],
+      2000
+    );
 
   // States
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
@@ -70,9 +72,9 @@ export function Login() {
         mutation: query,
       });
 
-      // If login is successful, show success notification and redirect the user
-      setIsInvalidCredentials(false);
+      // If login is successful, show success notification and run callback functions
       displayNotification();
+      runCallbacks();
     } catch (error: any) {
       setIsButtonDisabled(false);
       setIsInvalidCredentials(true);

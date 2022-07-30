@@ -20,27 +20,32 @@ import apolloClient from '../../lib/apollo-client';
 import { useHeaderStyles } from '../../styles/ui/header.styles';
 import { isProductsPageActive } from '../../lib/util';
 import HeaderResponsiveProps from '../../types/HeaderResponsiveProps';
-import { HEADER_COLOR, HEADER_HEIGHT } from '../../lib/constants';
+import { HEADER_HEIGHT } from '../../lib/constants';
 import CustomNotification from './custom-notification';
 import useShowNotification from '../../hooks/use-show-notification';
+import { AnimatePresence } from 'framer-motion';
 
 export function HeaderResponsive({ links }: HeaderResponsiveProps) {
   const { asPath } = useRouter();
   const { classes, cx } = useHeaderStyles();
 
   // States
-  const { isLoggedIn, setIsLoggedIn, activeLink, setActiveLink } =
+  const { isLoggedIn, setIsLoggedIn, activeLink, setActiveLink, clearCart } =
     useCartContext();
   const [opened, toggleOpened] = useBooleanToggle(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLogoutButtonDisabled, setIsLogoutButtonDisabled] =
     useState<boolean>(false);
 
-  const { displayNotification, isShowingNotification } = useShowNotification([
-    () => setIsLoggedIn(false),
-    () => Router.push('/'),
-    () => setIsLogoutButtonDisabled(false),
-  ]);
+  const { displayNotification, isShowingNotification, runCallbacks } =
+    useShowNotification(
+      [
+        () => setIsLoggedIn(false),
+        () => Router.push('/'),
+        () => setIsLogoutButtonDisabled(false),
+      ],
+      2000
+    );
 
   useEffect(() => {
     setIsLoggedIn(document.cookie.includes('dummyAccessToken'));
@@ -87,8 +92,10 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         mutation: query,
       });
 
-      // If logout is successful, show success notification and redirect the user
+      // If logout is successful; clear cart, show success notification and run callback functions
+      clearCart();
       displayNotification();
+      runCallbacks();
     } catch (error: any) {
       setIsLogoutButtonDisabled(false);
       console.log(error.message);
@@ -128,31 +135,24 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             size="sm"
           />
           <Group>
-            <div
-              style={{
-                cursor: 'pointer',
-              }}
-            >
-              <Image
-                src="/images/cart-icon.svg"
-                alt="Cart Icon"
-                width={90}
-                height={50}
-                onClick={() => setIsModalOpen(true)}
-                className={classes.headerIcon}
-              />
-            </div>
+            <Image
+              src="/images/cart-icon.svg"
+              alt="Cart Icon"
+              width={90}
+              height={50}
+              onClick={() => setIsModalOpen(true)}
+              className={classes.headerIcon}
+            />
             {isLoggedIn && (
-              <div className={classes.logoutContainer}>
-                <Button
-                  variant="gradient"
-                  gradient={{ from: 'orange', to: 'red' }}
-                  disabled={isLogoutButtonDisabled}
-                  onClick={logoutHandler}
-                >
-                  Logout
-                </Button>
-              </div>
+              <Button
+                variant="gradient"
+                gradient={{ from: 'orange', to: 'red' }}
+                disabled={isLogoutButtonDisabled}
+                onClick={logoutHandler}
+                className={classes.logout}
+              >
+                Logout
+              </Button>
             )}
           </Group>
 

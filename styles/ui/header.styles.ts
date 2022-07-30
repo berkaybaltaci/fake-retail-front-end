@@ -80,7 +80,7 @@ export const useHeaderStyles = createStyles((theme) => ({
     },
   },
 
-  logoutContainer: {
+  logout: {
     borderRadius: theme.radius.sm,
   },
 
@@ -89,5 +89,6 @@ export const useHeaderStyles = createStyles((theme) => ({
     '&:hover': {
       transform: 'scale(1.1)',
     },
+    cursor: 'pointer',
   },
 }));

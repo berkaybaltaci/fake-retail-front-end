@@ -10,4 +10,9 @@ export const useCartStyles = createStyles(() => ({
       transform: 'scale(1.1)',
     },
   },
+
+  'item-exit-active': {
+    opacity: 0,
+    transition: 'opacity 700ms ease-out',
+  },
 }));

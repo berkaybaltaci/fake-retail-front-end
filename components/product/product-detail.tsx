@@ -38,7 +38,10 @@ export const ProductDetail: React.FC<{
 }) => {
   const { classes } = useProductDetailStyles();
 
-  const { displayNotification, isShowingNotification } = useShowNotification();
+  const { displayNotification, isShowingNotification } = useShowNotification(
+    [],
+    2000
+  );
 
   const { addProductToCart, isLoggedIn } = useCartContext();
 

@@ -5,7 +5,10 @@ import CustomNotification from '../ui/custom-notification';
 import useShowNotification from '../../hooks/use-show-notification';
 
 const AllProducts: React.FC<{ products: IProduct[] }> = ({ products }) => {
-  const { displayNotification, isShowingNotification } = useShowNotification();
+  const { displayNotification, isShowingNotification } = useShowNotification(
+    [],
+    2000
+  );
 
   const addItemToCartHandler = () => {
     displayNotification();
