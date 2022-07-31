@@ -15,6 +15,8 @@ export const useCartStyles = createStyles(() => ({
     cursor: 'pointer',
     color: BUTTON_COLOR,
     transition: `all ${CART_ITEM_REMOVE_DELAY_SEC} ease-in-out`,
-    transform: 'scale(0)',
+    // transform: 'scale(0)',
+    opacity: 0,
+    transform: 'translateX(100px)',
   },
 }));
