@@ -54,7 +54,6 @@ const Product: React.FC<{
       addItemToCartHandler();
     } else {
       Router.push('/login');
-      console.log('Not authenticated');
     }
   };
 

@@ -31,28 +31,42 @@ export function Login() {
   const { classes } = useAuthStyles();
   const { displayNotification, isShowingNotification, runCallbacks } =
     useShowNotification(
-      [() => Router.push('/'), () => setIsInvalidCredentials(false)],
+      [
+        () => Router.push('/'),
+        () => setInvalidUsernameError(undefined),
+        () => setInvalidPasswordError(undefined),
+      ],
       2000
     );
 
   // States
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-  const [isInvalidCredentials, setIsInvalidCredentials] =
-    useState<boolean>(false);
+  const [invalidUsernameError, setInvalidUsernameError] = useState<
+    string | undefined
+  >();
+  const [invalidPasswordError, setInvalidPasswordError] = useState<
+    string | undefined
+  >();
 
   // Refs
   const nameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const loginHandler = async () => {
+    setInvalidPasswordError(undefined);
+    setInvalidUsernameError(undefined);
+
     // Check for invalid input values
+    if (!nameRef.current?.value || nameRef.current?.value.trim() === '') {
+      setInvalidUsernameError('Username field cannot be empty.');
+      return;
+    }
+
     if (
       !passwordRef.current?.value ||
-      !nameRef.current?.value ||
-      passwordRef.current?.value.trim() === '' ||
-      nameRef.current?.value.trim() === ''
+      passwordRef.current?.value.trim() === ''
     ) {
-      setIsInvalidCredentials(true);
+      setInvalidPasswordError('Password field cannot be empty.');
       return;
     }
 
@@ -77,8 +91,8 @@ export function Login() {
       runCallbacks();
     } catch (error: any) {
       setIsButtonDisabled(false);
-      setIsInvalidCredentials(true);
-      console.log(error.message);
+      setInvalidUsernameError(' ');
+      setInvalidPasswordError('Invalid username or password.');
     }
   };
 
@@ -112,7 +126,7 @@ export function Login() {
             placeholder="Your username"
             size="md"
             ref={nameRef}
-            error={isInvalidCredentials}
+            error={invalidUsernameError}
           />
           <PasswordInput
             label="Password"
@@ -120,7 +134,7 @@ export function Login() {
             mt="md"
             size="md"
             ref={passwordRef}
-            error={isInvalidCredentials && 'Invalid name or password'}
+            error={invalidPasswordError}
           />
           <Button
             fullWidth

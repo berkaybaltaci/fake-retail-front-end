@@ -31,13 +31,18 @@ export function Register() {
 
   const { displayNotification, isShowingNotification, runCallbacks } =
     useShowNotification(
-      [() => Router.push('/login'), () => setIsInvalidCredentials(false)],
+      [() => Router.push('/login'), () => setInvalidUsernameError(undefined)],
       2000
     );
 
   // States
-  const [isInvalidCredentials, setIsInvalidCredentials] =
-    useState<boolean>(false);
+  const [invalidUsernameError, setInvalidUsernameError] = useState<
+    string | undefined
+  >();
+  const [invalidPasswordError, setInvalidPasswordError] = useState<
+    string | undefined
+  >();
+
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
 
   // Refs
@@ -45,14 +50,20 @@ export function Register() {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   const registerHandler = async () => {
+    setInvalidPasswordError(undefined);
+    setInvalidUsernameError(undefined);
+
     // Check for invalid input values
+    if (!nameRef.current?.value || nameRef.current?.value.trim() === '') {
+      setInvalidUsernameError('Username field cannot be empty.');
+      return;
+    }
+
     if (
       !passwordRef.current?.value ||
-      !nameRef.current?.value ||
-      passwordRef.current?.value.trim() === '' ||
-      nameRef.current?.value.trim() === ''
+      passwordRef.current?.value.trim() === ''
     ) {
-      setIsInvalidCredentials(true);
+      setInvalidPasswordError('Password field cannot be empty.');
       return;
     }
 
@@ -77,8 +88,11 @@ export function Register() {
       // If registration is successful, show success notification and run callback functions
       displayNotification();
       runCallbacks();
-    } catch (error) {
-      console.log(error);
+      setInvalidPasswordError(undefined);
+      setInvalidUsernameError(undefined);
+    } catch (error: any) {
+      setIsButtonDisabled(false);
+      setInvalidUsernameError(error.message);
     }
   };
   return (
@@ -111,7 +125,7 @@ export function Register() {
             placeholder="Your username"
             size="md"
             ref={nameRef}
-            error={isInvalidCredentials}
+            error={invalidUsernameError}
           />
           <PasswordInput
             label="Password"
@@ -119,7 +133,7 @@ export function Register() {
             mt="md"
             size="md"
             ref={passwordRef}
-            error={isInvalidCredentials && 'Input fields cannot be empty.'}
+            error={invalidPasswordError}
           />
           {/* <Checkbox label="Keep me logged in" mt="xl" size="md" /> */}
           <Button
