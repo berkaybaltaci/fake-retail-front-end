@@ -53,17 +53,48 @@ export function Register() {
     setInvalidPasswordError(undefined);
     setInvalidUsernameError(undefined);
 
-    // Check for invalid input values
+    // Check for invalid username values
     if (!nameRef.current?.value || nameRef.current?.value.trim() === '') {
       setInvalidUsernameError('Username field cannot be empty.');
       return;
     }
 
+    if (nameRef.current?.value.includes(' ')) {
+      setInvalidUsernameError('Username cannot include empty spaces.');
+      return;
+    }
+
+    if (
+      nameRef.current?.value.length < 3 ||
+      nameRef.current?.value.length > 15
+    ) {
+      setInvalidUsernameError(
+        'Username length should be between 3 and 15 characters.'
+      );
+      return;
+    }
+
+    // Check for invalid password values
     if (
       !passwordRef.current?.value ||
       passwordRef.current?.value.trim() === ''
     ) {
-      setInvalidPasswordError('Password field cannot be empty.');
+      setInvalidUsernameError('Password field cannot be empty.');
+      return;
+    }
+
+    if (passwordRef.current?.value.includes(' ')) {
+      setInvalidUsernameError('Password cannot include empty spaces.');
+      return;
+    }
+
+    if (
+      passwordRef.current?.value.length < 6 ||
+      passwordRef.current?.value.length > 15
+    ) {
+      setInvalidUsernameError(
+        'Password length should be between 6 and 15 characters.'
+      );
       return;
     }
 
