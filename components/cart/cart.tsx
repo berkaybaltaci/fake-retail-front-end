@@ -10,68 +10,55 @@ const Cart: React.FC = () => {
   const { classes } = useCartStyles();
   const { products, removeProductFromCart } = useCartContext();
 
-  const productsMap = new Map<IProduct, number>(); // {product: quantity}
+  const [removingAnimationItemIds, setRemovingAnimationItemIds] = useState<
+    string[]
+  >([]);
 
-  for (let product of products) {
-    const currentProductsInMap = Array.from(productsMap.keys());
+  // // Array of distinctive products
+  const productsArray = Array.from(products.keys());
 
-    let isItemAlreadyInMap = false;
-    let quantity: number;
-    let foundProductInMap: IProduct;
-    for (let curProduct of currentProductsInMap) {
-      if (product._id === curProduct._id) {
-        isItemAlreadyInMap = true;
-        foundProductInMap = curProduct;
-        quantity = productsMap.get(curProduct)!;
-        break;
-      }
-    }
-    if (isItemAlreadyInMap) {
-      // Increment the quantity and set it as the new value
-      quantity!++;
-      productsMap.set(foundProductInMap!, quantity!);
-    } else {
-      // Add product to the map
-      productsMap.set(product, 1);
-    }
-  }
-
-  // Array of distinctive products
-  const adjustedProducts = Array.from(productsMap.keys());
-
-  const [removingItemIds, setRemovingItemIds] = useState<string[]>([]);
-
-  const totalPrice = products
-    .reduce((total, item) => total + +item.price, 0)
+  const totalPrice = productsArray
+    .reduce((total, item) => total + +item.price * products.get(item)!, 0)
     .toFixed(2);
 
   const minusClickHandler = (item: IProduct) => {
-    // If quantity drops to 0, run removing animation
-    if (productsMap.get(item) === 1) {
-      setRemovingItemIds((prevState: string[]) => {
+    if (products.get(item) === 1) {
+      // Quantity drops to 0, run removing animation
+      setRemovingAnimationItemIds((prevState: string[]) => {
         const newState = [...prevState, item._id];
         return newState;
       });
       setTimeout(() => {
+        // Remove product after animation delay
         removeProductFromCart(item);
-        setRemovingItemIds((prevState: string[]) => {
+
+        // Animation is done playing, remove the product id from animation list
+        setRemovingAnimationItemIds((prevState: string[]) => {
           const newState = prevState.filter((id) => id !== item._id);
           return newState;
         });
       }, CART_ITEM_REMOVE_DELAY_MS);
     } else {
+      // Quantity is not dropping below 1, decrease without animation
       removeProductFromCart(item);
     }
   };
 
   return (
     <>
+      {productsArray.length === 0 && (
+        <Text weight={700} style={{ fontStyle: 'italic' }}>
+          No products in cart.
+        </Text>
+      )}
       <List>
-        {adjustedProducts.map((item) => (
+        {productsArray.map((item) => (
           <List.Item
             key={item._id}
             className={
-              removingItemIds.includes(item._id) ? classes.removing : ''
+              removingAnimationItemIds.includes(item._id)
+                ? classes.removing
+                : ''
             }
             icon={
               <CircleMinus
@@ -80,7 +67,7 @@ const Cart: React.FC = () => {
               />
             }
           >
-            {productsMap.get(item)}x {item.name}
+            {products.get(item)}x {item.name}
           </List.Item>
         ))}
       </List>
