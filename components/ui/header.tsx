@@ -8,6 +8,7 @@ import {
   Transition,
   Modal,
   Button,
+  Text,
 } from '@mantine/core';
 import { useBooleanToggle } from '@mantine/hooks';
 import Link from 'next/link';
@@ -20,7 +21,7 @@ import apolloClient from '../../lib/apollo-client';
 import { useHeaderStyles } from '../../styles/ui/header.styles';
 import { isProductsPageActive } from '../../lib/util';
 import HeaderResponsiveProps from '../../types/HeaderResponsiveProps';
-import { HEADER_HEIGHT } from '../../lib/constants';
+import { HEADER_HEIGHT, TITLE_COLOR } from '../../lib/constants';
 import CustomNotification from './custom-notification';
 import useShowNotification from '../../hooks/use-show-notification';
 
@@ -171,7 +172,13 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
         <Modal
           opened={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          title="Your Cart"
+          title={
+            <div>
+              <Text weight={750} size="xl" color={TITLE_COLOR}>
+                YOUR CART
+              </Text>
+            </div>
+          }
         >
           <Cart />
         </Modal>

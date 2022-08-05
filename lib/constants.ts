@@ -21,3 +21,11 @@ export const TITLE_COLOR = '#03045E';
 export const CART_ITEM_REMOVE_DELAY_MS = 400;
 export const CART_ITEM_REMOVE_DELAY_SEC: string =
   CART_ITEM_REMOVE_DELAY_MS / 1000 + 's';
+
+export const CART_ITEM_DECREASE_DELAY_MS = 100;
+export const CART_ITEM_DECREASE_DELAY_SEC: string =
+  CART_ITEM_REMOVE_DELAY_MS / 1000 + 's';
+
+export const CART_ITEM_INCREASE_DELAY_MS = 100;
+export const CART_ITEM_INCREASE_DELAY_SEC: string =
+  CART_ITEM_REMOVE_DELAY_MS / 1000 + 's';

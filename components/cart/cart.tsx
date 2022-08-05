@@ -4,13 +4,20 @@ import { CircleMinus } from 'tabler-icons-react';
 import { useCartStyles } from '../../styles/cart/cart.styles';
 import React, { useState } from 'react';
 import IProduct from '../../types/IProduct';
-import { CART_ITEM_REMOVE_DELAY_MS } from '../../lib/constants';
+import {
+  CART_ITEM_DECREASE_DELAY_MS,
+  CART_ITEM_REMOVE_DELAY_MS,
+} from '../../lib/constants';
 
 const Cart: React.FC = () => {
   const { classes } = useCartStyles();
   const { products, removeProductFromCart } = useCartContext();
 
+  // States
   const [removingAnimationItemIds, setRemovingAnimationItemIds] = useState<
+    string[]
+  >([]);
+  const [decreasingAnimationItemIds, setDecreasingAnimationItemIds] = useState<
     string[]
   >([]);
 
@@ -39,8 +46,21 @@ const Cart: React.FC = () => {
         });
       }, CART_ITEM_REMOVE_DELAY_MS);
     } else {
-      // Quantity is not dropping below 1, decrease without animation
-      removeProductFromCart(item);
+      // Quantity is not dropping below 1, run decreasing animation
+      setDecreasingAnimationItemIds((prevState: string[]) => {
+        const newState = [...prevState, item._id];
+        return newState;
+      });
+      setTimeout(() => {
+        // Remove product after animation delay
+        removeProductFromCart(item);
+
+        // Animation is done playing, remove the product id from animation list
+        setDecreasingAnimationItemIds((prevState: string[]) => {
+          const newState = prevState.filter((id) => id !== item._id);
+          return newState;
+        });
+      }, CART_ITEM_DECREASE_DELAY_MS);
     }
   };
 
@@ -58,6 +78,8 @@ const Cart: React.FC = () => {
             className={
               removingAnimationItemIds.includes(item._id)
                 ? classes.removing
+                : decreasingAnimationItemIds.includes(item._id)
+                ? classes.decreasing
                 : ''
             }
             icon={
