@@ -1,23 +1,28 @@
 import { List, Text } from '@mantine/core';
 import { useCartContext } from '../../lib/context-store';
-import { CircleMinus } from 'tabler-icons-react';
+import { CircleMinus, CirclePlus } from 'tabler-icons-react';
 import { useCartStyles } from '../../styles/cart/cart.styles';
 import React, { useState } from 'react';
 import IProduct from '../../types/IProduct';
 import {
   CART_ITEM_DECREASE_DELAY_MS,
+  CART_ITEM_INCREASE_DELAY_MS,
   CART_ITEM_REMOVE_DELAY_MS,
 } from '../../lib/constants';
 
 const Cart: React.FC = () => {
   const { classes } = useCartStyles();
-  const { products, removeProductFromCart } = useCartContext();
+  const { products, removeProductFromCart, addProductToCart } =
+    useCartContext();
 
   // States
   const [removingAnimationItemIds, setRemovingAnimationItemIds] = useState<
     string[]
   >([]);
   const [decreasingAnimationItemIds, setDecreasingAnimationItemIds] = useState<
+    string[]
+  >([]);
+  const [increasingAnimationItemIds, setIncreasingAnimationItemIds] = useState<
     string[]
   >([]);
 
@@ -64,6 +69,23 @@ const Cart: React.FC = () => {
     }
   };
 
+  const plusClickHandler = (item: IProduct) => {
+    setIncreasingAnimationItemIds((prevState: string[]) => {
+      const newState = [...prevState, item._id];
+      return newState;
+    });
+    setTimeout(() => {
+      // Remove product after animation delay
+      addProductToCart(item);
+
+      // Animation is done playing, remove the product id from animation list
+      setIncreasingAnimationItemIds((prevState: string[]) => {
+        const newState = prevState.filter((id) => id !== item._id);
+        return newState;
+      });
+    }, CART_ITEM_INCREASE_DELAY_MS);
+  };
+
   return (
     <>
       {productsArray.length === 0 && (
@@ -71,7 +93,7 @@ const Cart: React.FC = () => {
           No products in cart.
         </Text>
       )}
-      <List>
+      <List style={{ userSelect: 'none' }}>
         {productsArray.map((item) => (
           <List.Item
             key={item._id}
@@ -80,14 +102,22 @@ const Cart: React.FC = () => {
                 ? classes.removing
                 : decreasingAnimationItemIds.includes(item._id)
                 ? classes.decreasing
+                : increasingAnimationItemIds.includes(item._id)
+                ? classes.increasing
                 : ''
             }
-            icon={
+            icon={[
               <CircleMinus
+                key={item._id}
                 onClick={() => minusClickHandler(item)}
                 className={classes.minusIcon}
-              />
-            }
+              />,
+              <CirclePlus
+                key={item._id}
+                onClick={() => plusClickHandler(item)}
+                className={classes.plusIcon}
+              />,
+            ]}
           >
             {products.get(item)}x {item.name}
           </List.Item>

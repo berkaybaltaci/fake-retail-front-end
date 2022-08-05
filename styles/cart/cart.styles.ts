@@ -8,11 +8,22 @@ import {
 export const useCartStyles = createStyles(() => ({
   minusIcon: {
     cursor: 'pointer',
-    color: BUTTON_COLOR,
+    color: 'red',
     transition: 'all .1s ease-in-out',
     '&:hover': {
       transform: 'scale(1.1)',
     },
+    verticalAlign: 'bottom',
+  },
+
+  plusIcon: {
+    cursor: 'pointer',
+    color: 'green',
+    transition: 'all .1s ease-in-out',
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
+    verticalAlign: 'bottom',
   },
 
   removing: {
