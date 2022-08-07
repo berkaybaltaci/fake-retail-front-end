@@ -1,16 +1,20 @@
-import { List, Text } from '@mantine/core';
+import { Button, Group, List, Space, Text } from '@mantine/core';
 import { useCartContext } from '../../lib/context-store';
 import { CircleMinus, CirclePlus } from 'tabler-icons-react';
 import { useCartStyles } from '../../styles/cart/cart.styles';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import IProduct from '../../types/IProduct';
 import {
+  BUTTON_COLOR,
   CART_ITEM_DECREASE_DELAY_MS,
   CART_ITEM_INCREASE_DELAY_MS,
   CART_ITEM_REMOVE_DELAY_MS,
 } from '../../lib/constants';
+import Link from 'next/link';
 
-const Cart: React.FC = () => {
+const Cart: React.FC<{ setIsModalOpen: Dispatch<SetStateAction<boolean>> }> = ({
+  setIsModalOpen,
+}) => {
   const { classes } = useCartStyles();
   const { products, removeProductFromCart, addProductToCart } =
     useCartContext();
@@ -123,9 +127,25 @@ const Cart: React.FC = () => {
           </List.Item>
         ))}
       </List>
+      <Space h="md" />
       <Text color="blue" weight={700} style={{ textAlign: 'right' }}>
         Total: £{totalPrice}
       </Text>
+      <Space h="xs" />
+      {productsArray.length !== 0 && (
+        <Link href="/checkout">
+          <a>
+            <Group position="right">
+              <Button
+                color={BUTTON_COLOR}
+                onClick={() => setIsModalOpen(false)}
+              >
+                Checkout
+              </Button>
+            </Group>
+          </a>
+        </Link>
+      )}
     </>
   );
 };

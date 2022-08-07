@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Paper,
   TextInput,
@@ -19,8 +19,12 @@ import { useCartContext } from '../../lib/context-store';
 import CustomNotification from '../ui/custom-notification';
 import useShowNotification from '../../hooks/use-show-notification';
 import { BUTTON_COLOR, TITLE_COLOR } from '../../lib/constants';
+import { useForm } from '@mantine/form';
+import { passwordValidator, usernameValidator } from '../../lib/util';
+import AuthInput from '../../types/AuthInput';
 
 export function Login() {
+  const { classes } = useAuthStyles();
   const { isLoggedIn } = useCartContext();
 
   // If already logged in, redirect to home page
@@ -28,52 +32,29 @@ export function Login() {
     Router.push('/');
   }
 
-  const { classes } = useAuthStyles();
+  const form = useForm({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+
+    validate: {
+      username: usernameValidator,
+      password: passwordValidator,
+    },
+  });
+
   const { displayNotification, isShowingNotification, runCallbacks } =
-    useShowNotification(
-      [
-        () => Router.push('/'),
-        () => setInvalidUsernameError(undefined),
-        () => setInvalidPasswordError(undefined),
-      ],
-      2000
-    );
+    useShowNotification([() => Router.push('/')], 2000);
 
   // States
   const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-  const [invalidUsernameError, setInvalidUsernameError] = useState<
-    string | undefined
-  >();
-  const [invalidPasswordError, setInvalidPasswordError] = useState<
-    string | undefined
-  >();
 
-  // Refs
-  const nameRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-
-  const loginHandler = async () => {
-    setInvalidPasswordError(undefined);
-    setInvalidUsernameError(undefined);
-
-    // Check for invalid input values
-    if (!nameRef.current?.value || nameRef.current?.value.trim() === '') {
-      setInvalidUsernameError('Username field cannot be empty.');
-      return;
-    }
-
-    if (
-      !passwordRef.current?.value ||
-      passwordRef.current?.value.trim() === ''
-    ) {
-      setInvalidPasswordError('Password field cannot be empty.');
-      return;
-    }
-
+  const loginHandler = async (values: AuthInput) => {
     setIsButtonDisabled(true);
 
     // Create login query using input values
-    const mutationStr = `login(input: { name: "${nameRef.current?.value}", password: "${passwordRef.current?.value}" })`;
+    const mutationStr = `login(input: { name: "${values.username}", password: "${values.password}" })`;
     const query = gql`
       mutation {
         ${mutationStr}
@@ -90,9 +71,12 @@ export function Login() {
       displayNotification();
       runCallbacks();
     } catch (error: any) {
+      // Login failed, re-enable login button
       setIsButtonDisabled(false);
-      setInvalidUsernameError(' ');
-      setInvalidPasswordError('Invalid username or password.');
+
+      // Set form errors
+      form.setFieldError('username', ' ');
+      form.setFieldError('password', 'Invalid username or password');
     }
   };
 
@@ -121,31 +105,33 @@ export function Login() {
             Login Here
           </Text>
 
-          <TextInput
-            label="Username"
-            placeholder="Your username"
-            size="md"
-            ref={nameRef}
-            error={invalidUsernameError}
-          />
-          <PasswordInput
-            label="Password"
-            placeholder="Your password"
-            mt="md"
-            size="md"
-            ref={passwordRef}
-            error={invalidPasswordError}
-          />
-          <Button
-            fullWidth
-            mt="xl"
-            size="md"
-            onClick={loginHandler}
-            disabled={isButtonDisabled}
-            style={{ backgroundColor: BUTTON_COLOR }}
-          >
-            Login
-          </Button>
+          <form onSubmit={form.onSubmit((values) => loginHandler(values))}>
+            <TextInput
+              required
+              label="Username"
+              placeholder="Your username"
+              size="md"
+              {...form.getInputProps('username')}
+            />
+            <PasswordInput
+              required
+              label="Password"
+              placeholder="Your password"
+              mt="md"
+              size="md"
+              {...form.getInputProps('password')}
+            />
+            <Button
+              fullWidth
+              mt="xl"
+              size="md"
+              disabled={isButtonDisabled}
+              style={{ backgroundColor: BUTTON_COLOR }}
+              type="submit"
+            >
+              Login
+            </Button>
+          </form>
           <Space h="sm" />
           <Group>
             <Text>Don&apos;t have an account?</Text>

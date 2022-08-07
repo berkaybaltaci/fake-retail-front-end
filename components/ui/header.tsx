@@ -180,7 +180,7 @@ export function HeaderResponsive({ links }: HeaderResponsiveProps) {
             </div>
           }
         >
-          <Cart />
+          <Cart setIsModalOpen={setIsModalOpen} />
         </Modal>
       </Header>
     </>
