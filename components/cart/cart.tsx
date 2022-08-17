@@ -117,7 +117,7 @@ const Cart: React.FC<{ setIsModalOpen: Dispatch<SetStateAction<boolean>> }> = ({
                 className={classes.minusIcon}
               />,
               <CirclePlus
-                key={item._id}
+                key={item._id + 1}
                 onClick={() => plusClickHandler(item)}
                 className={classes.plusIcon}
               />,
