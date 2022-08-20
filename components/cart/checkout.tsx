@@ -4,6 +4,7 @@ import {
   Divider,
   Group,
   List,
+  Space,
   Stack,
   Stepper,
   Text,
@@ -27,6 +28,9 @@ const Checkout: React.FC = () => {
   const router = useRouter();
 
   const productsArray = Array.from(products.keys());
+  const totalPrice = productsArray
+    .reduce((total, item) => total + +item.price * products.get(item)!, 0)
+    .toFixed(2);
 
   useEffect(() => {
     if (products.size === 0) {
@@ -195,8 +199,13 @@ const Checkout: React.FC = () => {
           label="Final step"
           description="Review and place your order"
         >
-          <Group position="center" style={{ justifyContent: 'space-evenly' }}>
-            <Stack align="left" mt="md">
+          <Group
+            style={{
+              justifyContent: 'space-evenly',
+              height: '65vh',
+            }}
+          >
+            <Stack align="left">
               <Text weight={700}>Recipient name</Text>
               <Text>
                 {form.values.name} {form.values.lastName}
@@ -210,7 +219,7 @@ const Checkout: React.FC = () => {
               </Text>
               {/* <Text>Expiration date: {form.values.creditCardExpiration}</Text> */}
             </Stack>
-            <Divider orientation="vertical" my="lg" />
+            <Divider orientation="vertical" />
             <Stack>
               <Text weight={700}>Items</Text>
               <List>
@@ -220,6 +229,13 @@ const Checkout: React.FC = () => {
                   </List.Item>
                 ))}
               </List>
+              <Space h={10} />
+              <Text
+                weight={700}
+                style={{ fontSize: '135%', fontStyle: 'italic' }}
+              >
+                Total: £{totalPrice}
+              </Text>
             </Stack>
           </Group>
         </Stepper.Step>
